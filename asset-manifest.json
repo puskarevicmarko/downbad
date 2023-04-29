@@ -1,0 +1,18 @@
+{
+  "files": {
+    "main.css": "/puskarevicmarko.github.io/static/css/main.efbc9b6f.css",
+    "main.js": "/puskarevicmarko.github.io/static/js/main.5fc59d85.js",
+    "static/js/787.92f2543c.chunk.js": "/puskarevicmarko.github.io/static/js/787.92f2543c.chunk.js",
+    "static/media/logo.png": "/puskarevicmarko.github.io/static/media/logo.3a8931c06bcf8d7d41d7.png",
+    "index.html": "/puskarevicmarko.github.io/index.html",
+    "static/media/sublogo.svg": "/puskarevicmarko.github.io/static/media/sublogo.40dfa7b52e91870c8d3369703cd560db.svg",
+    "static/media/logo.svg": "/puskarevicmarko.github.io/static/media/logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg",
+    "main.efbc9b6f.css.map": "/puskarevicmarko.github.io/static/css/main.efbc9b6f.css.map",
+    "main.5fc59d85.js.map": "/puskarevicmarko.github.io/static/js/main.5fc59d85.js.map",
+    "787.92f2543c.chunk.js.map": "/puskarevicmarko.github.io/static/js/787.92f2543c.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.efbc9b6f.css",
+    "static/js/main.5fc59d85.js"
+  ]
+}
