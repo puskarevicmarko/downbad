@@ -66,6 +66,13 @@ const MainContent = () => {
             zoom: 12,
             trackResize: false,
           });
+
+
+          // disable map rotation using right click + drag
+          mapInstance.dragRotate.disable();
+          
+          // disable map rotation using touch rotation gesture
+          mapInstance.touchZoomRotate.disableRotation();
       
           mapInstance.on("load", () => {
             setMap(mapInstance);
