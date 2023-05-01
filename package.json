@@ -1,10 +1,10 @@
 {
   "name": "downbad.nyc",
   "version": "0.1.0",
-  "homepage": "http://puskarevicmarko.github.io/puskarevicmarko.github.io",
   "private": true,
   "dependencies": {
     "@gorhom/bottom-sheet": "^4.4.5",
+    "homepage": ".",
     "@mapbox/mapbox-gl-geocoder": "^5.0.1",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
@@ -22,8 +22,6 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
