@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Tabs, Tab, TabPanel, Transition } from '@headlessui/react';
+import { Tabs, Tab, TabPanel } from '@headlessui/react';
 
 import logo from './assets/logo.png';
 import subLogo from './assets/sublogo.svg';
@@ -250,7 +250,9 @@ return (
             </div>
             <Tab.Group>
             <Tab.List className="flex space-x-1 p-3">
-              {['Browse', 'Top 10 Most Heinous', 'Search'].map((category) => (
+              {['Browse 📍', 
+              '10 Most Heinous 🤡', 
+              'Search 🔎'].map((category) => (
                 <Tab
                   key={category}
                   className={({ selected }) =>
@@ -268,32 +270,31 @@ return (
                 </Tab>
               ))}
             </Tab.List>
-            <Tab.Panels className="mt-2">
+            <Tab.Panels className="">
               <Tab.Panel
                 className={classNames(
-                  "tab-panel-transition",
                              )}
               >
               </Tab.Panel>
               <Tab.Panel
                 className={classNames(
-                  'rounded-xl bg-white bg-opacity-50 p-3 tab-panel-transition',
-                  'ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2'
+                  'rounded-xl bg-white bg-opacity-60 p-3 tab-panel-transition',
+                  'ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2',
                 )}
               >
                 <ul className="w-full p-5">
                   {/* Replace the array with your actual list of top 10 restaurants */}
                   {[
-                    'Restaurant 1',
-                    'Restaurant 2',
-                    'Restaurant 3',
-                    'Restaurant 4',
-                    'Restaurant 5',
-                    'Restaurant 6',
-                    'Restaurant 7',
-                    'Restaurant 8',
-                    'Restaurant 9',
-                    'Restaurant 10',
+                  'Lucien',
+                  'Clandestino',
+                  'Carbone',
+                  "Fanelli's",
+                  'Dimes',
+                  'Cipriani',
+                  'Balthazar',
+                  'Lola Taverna',
+                  "Ray's",
+                  "Paul's Baby Grand",
                   ].map((restaurant, index) => (
                     <li key={index} className="mb-2">
                       {restaurant}

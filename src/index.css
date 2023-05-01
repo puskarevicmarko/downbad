@@ -20,11 +20,3 @@
     z-index: 9999; /* Adjust this value as needed to make sure it's above all other elements */
     position: relative;
   }
-
-  .tab-panel-transition {
-    transition: opacity 0.3s ease-in-out;
-  }
-
-  [hidden] {
-    display: none;
-  }
