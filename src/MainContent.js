@@ -170,6 +170,15 @@ const MainContent = () => {
           });
         }
       );
+    })
+    .catch((error) => {
+      if (error.name === 'AbortError') {
+        // Handle the aborted fetch request
+        console.log('Fetch request aborted');
+      } else {
+        // Handle other errors
+        console.error('An error occurred during the fetch request:', error);
+      }
     });
 });
 

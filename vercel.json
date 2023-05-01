@@ -1,0 +1,14 @@
+{
+    "headers": [
+      {
+        "source": "/styles.css",
+        "headers": [
+          {
+            "key": "Content-Type",
+            "value": "text/css"
+          }
+        ]
+      }
+    ]
+  }
+  
