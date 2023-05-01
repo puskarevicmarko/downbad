@@ -1,4 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+
 import logo from './assets/logo.png';
 import subLogo from './assets/sublogo.svg';
 import axios from 'axios';
@@ -9,7 +11,6 @@ import csv2geojson from 'csv2geojson';
 import Drawer from './Drawer.js';
 import { presentDrawer } from './Drawer.js';
 import { destroyDrawer } from './Drawer.js';
-import AccordionList from './AccordionList';
 
 
 function parseButtons(html) {
@@ -36,7 +37,11 @@ const MainContent = () => {
         const [map, setMap] = useState(null);
         const [buttonData, setButtonData] = useState([]);
         const mapRef = useRef(null);
+        const [activeTab, setActiveTab] = useState(0);
 
+        const handleTabClick = (tabIndex) => {
+          setActiveTab(tabIndex);
+        };
         const geocoderContainer = useRef(null);
 
         // Add handleFlyToButtonClick function
@@ -189,6 +194,26 @@ const MainContent = () => {
         console.error('An error occurred during the fetch request:', error);
       }
     });
+    
+  });
+
+setMap(mapInstance);
+
+
+// Add event listener to the button
+// Query all buttons with the 'flex-shrink-0' class inside the 'tags' element
+const buttons = document.querySelectorAll("#tags .flex-shrink-0");
+
+// Attach the event listener to each button
+buttons.forEach(button => {
+  button.addEventListener("click", handleFlyToButtonClick);
+});
+}, [map]);
+
+
+const geocoderRef = (element) => {
+  if (element) {
+    geocoderContainer.current = element;
 
     const geocoder = new MapboxGeocoder({
       accessToken: mapboxgl.accessToken,
@@ -197,30 +222,16 @@ const MainContent = () => {
     });
 
     geocoder.on("result", (e) => {
-      mapInstance.flyTo({ center: e.result.geometry.coordinates, zoom: 14 });
+      map.flyTo({ center: e.result.geometry.coordinates, zoom: 14 });
     });
 
     while (geocoderContainer.current.firstChild) {
       geocoderContainer.current.removeChild(geocoderContainer.current.firstChild);
     }
 
-    geocoderContainer.current.appendChild(geocoder.onAdd(mapInstance));
-
-  });
-
-setMap(mapInstance);
-
-// Add event listener to the button
-// Query all buttons with the 'flex-shrink-0' class inside the 'tags' element
-const buttons = document.querySelectorAll("#tags .flex-shrink-0");
-
-// Attach the event listener to each button
-
-
-buttons.forEach(button => {
-  button.addEventListener("click", handleFlyToButtonClick);
-});
-}, [map]);
+    geocoderContainer.current.appendChild(geocoder.onAdd(map));
+  }
+};
 
 
 return (
@@ -231,10 +242,32 @@ return (
             <div className="flex items-center bg-yellow-500 flex-col items-start px-6 py-5">
               <img src={logo} className="object-contain md:h-12" alt="Down Bad" />
               <img src={subLogo} className="object-contain md:h-5" alt="Manhattan's Most Memed" />
-              <div ref={geocoderContainer} className="geocoder-container object-contain pt-5" alt="Search" />
             </div>
-            <AccordionList>
-            </AccordionList>
+            <div className="bg-gray-200">
+            <Tabs>
+                <TabList className="text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:text-gray-400 dark:border-gray-700 flex flex-wrap -mb-px">
+                  <Tab className={`${activeTab === 0 ? 'border-blue-600 text-blue-600' : 'hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300'} inline-block p-4 border-b-2 border-transparent rounded-t-lg`} onClick={() => handleTabClick(0)}>Restaurant List</Tab>
+                  <Tab className={`${activeTab === 1 ? 'border-blue-600 text-blue-600' : 'hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300'} inline-block p-4 border-b-2 border-transparent rounded-t-lg`} onClick={() => handleTabClick(1)}>Search</Tab>
+                  <Tab className={`${activeTab === 2 ? 'border-blue-600 text-blue-600' : 'hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300'} inline-block p-4 border-b-2 border-transparent rounded-t-lg`} onClick={() => handleTabClick(2)}>Browse</Tab>
+                </TabList>
+
+                <TabPanel>
+                  <ul className="w-full p-5">
+                    {/* Replace the array with your actual list of top 10 restaurants */}
+                    {['Restaurant 1', 'Restaurant 2', 'Restaurant 3', 'Restaurant 4', 'Restaurant 5', 'Restaurant 6', 'Restaurant 7', 'Restaurant 8', 'Restaurant 9', 'Restaurant 10'].map((restaurant, index) => (
+                      <li key={index} className="mb-2">
+                        {restaurant}
+                      </li>
+                    ))}
+                  </ul>
+                </TabPanel>
+
+                <TabPanel>
+                  <div ref={geocoderRef} className="geocoder-container p-5" alt="Search" />
+                </TabPanel>
+           
+              </Tabs>
+            </div>
           </div>
         </div>
         <div className="absolute inset-0 map-container" ref={mapContainer} id="map" />
