@@ -9,6 +9,8 @@ import csv2geojson from 'csv2geojson';
 import Drawer from './Drawer.js';
 import { presentDrawer } from './Drawer.js';
 import { destroyDrawer } from './Drawer.js';
+import AccordionList from './AccordionList';
+
 
 function parseButtons(html) {
   const parser = new DOMParser();
@@ -34,6 +36,8 @@ const MainContent = () => {
         const [map, setMap] = useState(null);
         const [buttonData, setButtonData] = useState([]);
         const mapRef = useRef(null);
+
+        const geocoderContainer = useRef(null);
 
         // Add handleFlyToButtonClick function
         let handleFlyToButtonClick = (event) => {
@@ -66,7 +70,6 @@ const MainContent = () => {
             zoom: 12,
           });
 
-
           // disable map rotation using right click + drag
           mapInstance.dragRotate.disable();
           
@@ -76,7 +79,7 @@ const MainContent = () => {
           mapInstance.on("load", () => {
             setMap(mapInstance);
             mapRef.current = mapInstance; // Update mapRef with the latest map instance
-            mapInstance.resize();
+            //mapInstance.resize();
       
             fetch(
               "https://docs.google.com/spreadsheets/d/1TJ30712MKFqUTv-EiLfaFQnJ_Gb7qwJBh5U5unOVkRU/gviz/tq?tqx=out:csv&sheet=Sheet1"
@@ -186,7 +189,24 @@ const MainContent = () => {
         console.error('An error occurred during the fetch request:', error);
       }
     });
-});
+
+    const geocoder = new MapboxGeocoder({
+      accessToken: mapboxgl.accessToken,
+      mapboxgl: mapboxgl,
+      marker: false,
+    });
+
+    geocoder.on("result", (e) => {
+      mapInstance.flyTo({ center: e.result.geometry.coordinates, zoom: 14 });
+    });
+
+    while (geocoderContainer.current.firstChild) {
+      geocoderContainer.current.removeChild(geocoderContainer.current.firstChild);
+    }
+
+    geocoderContainer.current.appendChild(geocoder.onAdd(mapInstance));
+
+  });
 
 setMap(mapInstance);
 
@@ -195,6 +215,8 @@ setMap(mapInstance);
 const buttons = document.querySelectorAll("#tags .flex-shrink-0");
 
 // Attach the event listener to each button
+
+
 buttons.forEach(button => {
   button.addEventListener("click", handleFlyToButtonClick);
 });
@@ -209,7 +231,10 @@ return (
             <div className="flex items-center bg-yellow-500 flex-col items-start px-6 py-5">
               <img src={logo} className="object-contain md:h-12" alt="Down Bad" />
               <img src={subLogo} className="object-contain md:h-5" alt="Manhattan's Most Memed" />
+              <div ref={geocoderContainer} className="geocoder-container object-contain pt-5" alt="Search" />
             </div>
+            <AccordionList>
+            </AccordionList>
           </div>
         </div>
         <div className="absolute inset-0 map-container" ref={mapContainer} id="map" />
