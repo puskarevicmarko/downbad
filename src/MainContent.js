@@ -64,7 +64,6 @@ const MainContent = () => {
             style: "mapbox://styles/puskarevicmarko/cl1v306x6006a14s2064gtpmd",
             center: [-73.991556, 40.744972],
             zoom: 12,
-            trackResize: false,
           });
 
 
@@ -213,7 +212,7 @@ return (
             </div>
           </div>
         </div>
-        <div className="absolute inset-0" ref={mapContainer} id="map" />
+        <div className="absolute inset-0 map-container" ref={mapContainer} id="map" />
       </section>
       <Drawer buttonData={buttonData} onFlyToButtonClick={handleFlyToButtonClick} />
     </>
