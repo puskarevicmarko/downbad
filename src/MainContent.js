@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import { Tabs, Tab, TabPanel, Transition } from '@headlessui/react';
 
 import logo from './assets/logo.png';
 import subLogo from './assets/sublogo.svg';
@@ -31,13 +31,17 @@ function parseButtons(html) {
   return buttonData;
 }
 
+function classNames(...classes) {
+  return classes.filter(Boolean).join(' ');
+}
+
 const MainContent = () => {
 
         const mapContainer = useRef(null);
         const [map, setMap] = useState(null);
         const [buttonData, setButtonData] = useState([]);
         const mapRef = useRef(null);
-        const [activeTab, setActiveTab] = useState(0);
+        const [activeTab, setActiveTab] = React.useState('browse');
 
         const handleTabClick = (tabIndex) => {
           setActiveTab(tabIndex);
@@ -84,7 +88,7 @@ const MainContent = () => {
           mapInstance.on("load", () => {
             setMap(mapInstance);
             mapRef.current = mapInstance; // Update mapRef with the latest map instance
-            //mapInstance.resize();
+            mapInstance.resize();
       
             fetch(
               "https://docs.google.com/spreadsheets/d/1TJ30712MKFqUTv-EiLfaFQnJ_Gb7qwJBh5U5unOVkRU/gviz/tq?tqx=out:csv&sheet=Sheet1"
@@ -233,41 +237,81 @@ const geocoderRef = (element) => {
   }
 };
 
-
 return (
     <>
       <section>
+
         <div className="container px-6 pt-6 mx-auto flex justify-center overflow-auto">
-          <div className="w-full md:w-2/3 lg:w-1/2 full bg-yellow-500 bg-opacity-75 rounded-2xl flex flex-col relative z-10 shadow-2xl overflow-hidden">
-            <div className="flex items-center bg-yellow-500 flex-col items-start px-6 py-5">
+          
+          <div className="w-full md:w-2/3 lg:w-1/2 full bg-stone-900/80 rounded-2xl flex flex-col relative z-10 shadow-2xl overflow-hidden">
+            <div className="flex items-center bg-yellow-500 rounded-t-2xl flex-col items-start px-6 py-5">
               <img src={logo} className="object-contain md:h-12" alt="Down Bad" />
               <img src={subLogo} className="object-contain md:h-5" alt="Manhattan's Most Memed" />
             </div>
-            <div className="bg-gray-200">
-            <Tabs>
-                <TabList className="text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:text-gray-400 dark:border-gray-700 flex flex-wrap -mb-px">
-                  <Tab className={`${activeTab === 0 ? 'border-blue-600 text-blue-600' : 'hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300'} inline-block p-4 border-b-2 border-transparent rounded-t-lg`} onClick={() => handleTabClick(0)}>Restaurant List</Tab>
-                  <Tab className={`${activeTab === 1 ? 'border-blue-600 text-blue-600' : 'hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300'} inline-block p-4 border-b-2 border-transparent rounded-t-lg`} onClick={() => handleTabClick(1)}>Search</Tab>
-                  <Tab className={`${activeTab === 2 ? 'border-blue-600 text-blue-600' : 'hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300'} inline-block p-4 border-b-2 border-transparent rounded-t-lg`} onClick={() => handleTabClick(2)}>Browse</Tab>
-                </TabList>
-
-                <TabPanel>
-                  <ul className="w-full p-5">
-                    {/* Replace the array with your actual list of top 10 restaurants */}
-                    {['Restaurant 1', 'Restaurant 2', 'Restaurant 3', 'Restaurant 4', 'Restaurant 5', 'Restaurant 6', 'Restaurant 7', 'Restaurant 8', 'Restaurant 9', 'Restaurant 10'].map((restaurant, index) => (
-                      <li key={index} className="mb-2">
-                        {restaurant}
-                      </li>
-                    ))}
-                  </ul>
-                </TabPanel>
-
-                <TabPanel>
-                  <div ref={geocoderRef} className="geocoder-container p-5" alt="Search" />
-                </TabPanel>
-           
-              </Tabs>
-            </div>
+            <Tab.Group>
+            <Tab.List className="flex space-x-1 p-3">
+              {['Browse', 'Top 10 Most Heinous', 'Search'].map((category) => (
+                <Tab
+                  key={category}
+                  className={({ selected }) =>
+                    classNames(
+                      'w-full rounded-lg py-2.5 text-sm font-medium leading-5',
+                      selected ? 'text-yellow-700' : 'text-yellow-100',
+                      'ring-white ring-opacity-60 ring-offset-2 ring-offset-yellow-400 focus:outline-none focus:ring-2',
+                      selected
+                        ? 'bg-white shadow'
+                        : 'text-yellow-100 hover:bg-white/[0.12] hover:text-white'
+                    )
+                  }
+                >
+                  {category}
+                </Tab>
+              ))}
+            </Tab.List>
+            <Tab.Panels className="mt-2">
+              <Tab.Panel
+                className={classNames(
+                  "tab-panel-transition",
+                             )}
+              >
+              </Tab.Panel>
+              <Tab.Panel
+                className={classNames(
+                  'rounded-xl bg-white bg-opacity-50 p-3 tab-panel-transition',
+                  'ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2'
+                )}
+              >
+                <ul className="w-full p-5">
+                  {/* Replace the array with your actual list of top 10 restaurants */}
+                  {[
+                    'Restaurant 1',
+                    'Restaurant 2',
+                    'Restaurant 3',
+                    'Restaurant 4',
+                    'Restaurant 5',
+                    'Restaurant 6',
+                    'Restaurant 7',
+                    'Restaurant 8',
+                    'Restaurant 9',
+                    'Restaurant 10',
+                  ].map((restaurant, index) => (
+                    <li key={index} className="mb-2">
+                      {restaurant}
+                    </li>
+                  ))}
+                </ul>
+              </Tab.Panel>
+              <Tab.Panel
+                className={classNames(
+                  'rounded-xl bg-white bg-opacity-50 p-3 tab-panel-transition',
+                  'ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2'
+                )}
+              >
+                <div ref={geocoderRef} className="geocoder-container p-5 relative" alt="Search" />
+              </Tab.Panel>
+            </Tab.Panels>
+          </Tab.Group>
+              
           </div>
         </div>
         <div className="absolute inset-0 map-container" ref={mapContainer} id="map" />
