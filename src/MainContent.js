@@ -243,7 +243,7 @@ return (
 
         <div className="container px-6 pt-6 mx-auto flex justify-center overflow-auto">
           
-          <div className="w-full md:w-2/3 lg:w-1/2 full bg-stone-900/80 rounded-2xl flex flex-col relative z-10 shadow-2xl overflow-hidden">
+          <div className="w-full md:w-2/3 lg:w-1/2 full bg-stone-900/80 backdrop-blur-sm rounded-2xl flex flex-col relative z-10 shadow-2xl overflow-hidden">
             <div className="flex items-center bg-yellow-500 rounded-t-2xl flex-col items-start px-6 py-5">
               <img src={logo} className="object-contain md:h-12" alt="Down Bad" />
               <img src={subLogo} className="object-contain md:h-5" alt="Manhattan's Most Memed" />
@@ -278,11 +278,11 @@ return (
               </Tab.Panel>
               <Tab.Panel
                 className={classNames(
-                  'rounded-xl bg-white bg-opacity-60 p-3 tab-panel-transition',
+                  'rounded-xl bg-gray bg-opacity-50 backdrop-blur-sm p-3 tab-panel-transition',
                   'ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2',
                 )}
               >
-                <ul className="w-full p-5">
+                <ul className="w-full text-left p-5">
                   {/* Replace the array with your actual list of top 10 restaurants */}
                   {[
                   'Lucien',
@@ -296,7 +296,7 @@ return (
                   "Ray's",
                   "Paul's Baby Grand",
                   ].map((restaurant, index) => (
-                    <li key={index} className="mb-2">
+                    <li key={index} className="mb-2 py-1 text-yellow-500 font-black text-rounded-xl uppercase">
                       {restaurant}
                     </li>
                   ))}
