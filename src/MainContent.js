@@ -288,7 +288,7 @@ return (
                   'ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2',
                 )}
               >
-                <ul className="w-full text-left p-5 max-h-96 overflow-y-auto">
+                <ul className="w-full text-left p-5 max-h-72 overflow-y-auto">
                   {/* Replace the array with your actual list of top 10 restaurants */}
                   {[
                   'Lucien',
