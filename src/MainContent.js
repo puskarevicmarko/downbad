@@ -266,7 +266,7 @@ return (
                   className={classNames(
                     'w-full rounded-lg py-2.5 text-sm font-medium leading-5',
                     activeTab === index ? 'text-yellow-700' : 'text-yellow-100',
-                    'ring-white ring-opacity-60 ring-offset-2 ring-offset-yellow-400 focus:outline-none focus:ring-2',
+                    'ring-yellow-400 ring-opacity-60 ring-offset-2 ring-offset-yellow-400 focus:outline-none focus:ring-2',
                     activeTab === index
                       ? 'bg-white shadow'
                       : 'text-yellow-100 hover:bg-white/[0.12] hover:text-white'
@@ -285,7 +285,7 @@ return (
               <Tab.Panel
                 className={classNames(
                   'rounded-xl bg-gray bg-opacity-50 backdrop-blur-sm p-3 tab-panel-transition',
-                  'ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2',
+                  'ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none',
                 )}
               >
                 <ul className="w-full text-left p-5 max-h-72 overflow-y-auto">
@@ -317,7 +317,7 @@ return (
               <Tab.Panel
                 className={classNames(
                   'rounded-xl bg-gray bg-opacity-50 backdrop-blur-sm p-3 tab-panel-transition',
-                  'ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2'
+                  'ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none'
                 )}
               >
                 <div ref={geocoderRef} className="flex justify-center geocoder-container p-3 relative w-full" alt="Search" />
