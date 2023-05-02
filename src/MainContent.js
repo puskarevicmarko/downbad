@@ -289,34 +289,36 @@ return (
                 )}
               >
                 <ul className="w-full text-left p-5 max-h-72 overflow-y-auto">
-                    {[
-                      { name: 'Lucien', score: 10 },
-                      { name: 'Clandestino', score: 7.619047619 },
-                      { name: 'Carbone', score: 6.666666667 },
-                      { name: "Fanelli's", score: 5.714285714 },
-                      { name: 'Dimes', score: 5.238095238 },
-                      { name: 'Cipriani', score: 4.761904762 },
-                      { name: 'Balthazar', score: 4.285714286 },
-                      { name: 'Lola Taverna', score: 4.285714286 },
-                      { name: "Ray's", score: 3.80952381 },
-                      { name: "Paul's Baby Grand", score: 3.333333333 },
-                    ].map((restaurant, index) => {
-                      const emojiCount = Math.round(restaurant.score/2);
-                      return (
-                        <li
-                          key={index}
-                          className="mb-2 py-3 text-yellow-500 font-black text uppercase flex justify-between items-center"
-                        >
-                          <span>#{index + 1}: {restaurant.name}</span>
-                          <span>
-                            {Array(emojiCount)
-                              .fill('🤮')
-                              .join('')}
-                          </span>
-                        </li>
-                      );
-                    })}
-                  </ul>
+                  {[
+                    { name: 'Lucien', score: 10 },
+                    { name: 'Clandestino', score: 7.619047619 },
+                    { name: 'Carbone', score: 6.666666667 },
+                    { name: "Fanelli's", score: 5.714285714 },
+                    { name: 'Dimes', score: 5.238095238 },
+                    { name: 'Cipriani', score: 4.761904762 },
+                    { name: 'Balthazar', score: 4.285714286 },
+                    { name: 'Lola Taverna', score: 4.285714286 },
+                    { name: "Ray's", score: 3.80952381 },
+                    { name: "Paul's Baby Grand", score: 3.333333333 },
+                  ].map((restaurant, index) => {
+                    const emojiCount = Math.round(restaurant.score / 2);
+                    return (
+                      <li
+                        key={index}
+                        className="mb-2 py-3 text-yellow-500 font-black text uppercase flex justify-between items-center border-b border-yellow-200 border-opacity-20 cursor-pointer hover:bg-yellow-500 hover:bg-opacity-30 hover:border-opacity-100"
+                      >
+                        <span className="ml-2">#{index + 1}: {restaurant.name}</span>
+                        <span className="mr-2">
+                          {Array(emojiCount)
+                            .fill('🤮')
+                            .join('')}
+                        </span>
+                      </li>
+                    );
+                  })}
+                </ul>
+
+
                 <button
                   onClick={handleCloseTopTen}
                   className="bg-yellow-500 text-black font-medium py-2 px-4 rounded-lg shadow-md  mx-auto mb-4"
