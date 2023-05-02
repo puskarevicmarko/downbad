@@ -20,3 +20,7 @@
     z-index: 9999; /* Adjust this value as needed to make sure it's above all other elements */
     position: relative;
   }
+
+  .mapboxgl-ctrl-geocoder {
+    width: 100%;
+  }

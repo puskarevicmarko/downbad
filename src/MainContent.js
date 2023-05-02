@@ -304,11 +304,11 @@ return (
               </Tab.Panel>
               <Tab.Panel
                 className={classNames(
-                  'rounded-xl bg-white bg-opacity-50 p-3 tab-panel-transition',
+                  'rounded-xl bg-gray bg-opacity-50 backdrop-blur-sm p-3 tab-panel-transition',
                   'ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2'
                 )}
               >
-                <div ref={geocoderRef} className="geocoder-container p-5 relative" alt="Search" />
+                <div ref={geocoderRef} className="flex justify-center geocoder-container p-3 relative w-full" alt="Search" />
               </Tab.Panel>
             </Tab.Panels>
           </Tab.Group>
