@@ -289,7 +289,6 @@ return (
                 )}
               >
                 <ul className="w-full text-left p-5 max-h-72 overflow-y-auto">
-                    {/* Replace the array with your actual list of top 10 restaurants and their scores */}
                     {[
                       { name: 'Lucien', score: 10 },
                       { name: 'Clandestino', score: 7.619047619 },
@@ -306,7 +305,7 @@ return (
                       return (
                         <li
                           key={index}
-                          className="mb-2 py-3 text-yellow-500 font-black text-xl uppercase flex justify-between items-center"
+                          className="mb-2 py-3 text-yellow-500 font-black text uppercase flex justify-between items-center"
                         >
                           <span>#{index + 1}: {restaurant.name}</span>
                           <span>
