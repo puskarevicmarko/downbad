@@ -251,7 +251,7 @@ return (
             <Tab.Group>
             <Tab.List className="flex space-x-1 p-3">
               {['Browse 📍', 
-              '10 Most Heinous 🤡', 
+              'Top 10 🤡', 
               'Search 🔎'].map((category) => (
                 <Tab
                   key={category}
