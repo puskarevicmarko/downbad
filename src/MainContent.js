@@ -41,11 +41,18 @@ const MainContent = () => {
         const [map, setMap] = useState(null);
         const [buttonData, setButtonData] = useState([]);
         const mapRef = useRef(null);
-        const [activeTab, setActiveTab] = React.useState('browse');
+        const [activeTab, setActiveTab] = React.useState(0);
 
         const handleTabClick = (tabIndex) => {
           setActiveTab(tabIndex);
         };
+        
+        const [selectedIndex, setSelectedIndex] = useState(0);
+
+        const handleCloseTopTen = () => {
+          setSelectedIndex(0); // Switch to the Browse tab
+        };
+
         const geocoderContainer = useRef(null);
 
         // Add handleFlyToButtonClick function
@@ -248,23 +255,22 @@ return (
               <img src={logo} className="object-contain md:h-12" alt="Down Bad" />
               <img src={subLogo} className="object-contain md:h-5" alt="Manhattan's Most Memed" />
             </div>
-            <Tab.Group>
+            <Tab.Group selectedIndex={selectedIndex} onChange={setSelectedIndex}>
             <Tab.List className="flex space-x-1 p-3">
               {['Browse 📍', 
               'Top 10 🤡', 
-              'Search 🔎'].map((category) => (
-                <Tab
+              'Search 🔎'].map((category, index) => (
+                  <Tab
                   key={category}
-                  className={({ selected }) =>
-                    classNames(
-                      'w-full rounded-lg py-2.5 text-sm font-medium leading-5',
-                      selected ? 'text-yellow-700' : 'text-yellow-100',
-                      'ring-white ring-opacity-60 ring-offset-2 ring-offset-yellow-400 focus:outline-none focus:ring-2',
-                      selected
-                        ? 'bg-white shadow'
-                        : 'text-yellow-100 hover:bg-white/[0.12] hover:text-white'
-                    )
-                  }
+                  onClick={() => setActiveTab(index)}
+                  className={classNames(
+                    'w-full rounded-lg py-2.5 text-sm font-medium leading-5',
+                    activeTab === index ? 'text-yellow-700' : 'text-yellow-100',
+                    'ring-white ring-opacity-60 ring-offset-2 ring-offset-yellow-400 focus:outline-none focus:ring-2',
+                    activeTab === index
+                      ? 'bg-white shadow'
+                      : 'text-yellow-100 hover:bg-white/[0.12] hover:text-white'
+                  )}
                 >
                   {category}
                 </Tab>
@@ -282,7 +288,7 @@ return (
                   'ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2',
                 )}
               >
-                <ul className="w-full text-left p-5">
+                <ul className="w-full text-left p-5 max-h-96 overflow-y-auto">
                   {/* Replace the array with your actual list of top 10 restaurants */}
                   {[
                   'Lucien',
@@ -301,6 +307,12 @@ return (
                     </li>
                   ))}
                 </ul>
+                <button
+                  onClick={handleCloseTopTen}
+                  className="bg-yellow-500 text-black font-medium py-2 px-4 rounded-lg shadow-md  mx-auto mb-4"
+                >
+                  Reveal all Down Bad establishments
+                </button>
               </Tab.Panel>
               <Tab.Panel
                 className={classNames(
