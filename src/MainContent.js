@@ -289,24 +289,35 @@ return (
                 )}
               >
                 <ul className="w-full text-left p-5 max-h-72 overflow-y-auto">
-                  {/* Replace the array with your actual list of top 10 restaurants */}
-                  {[
-                  'Lucien',
-                  'Clandestino',
-                  'Carbone',
-                  "Fanelli's",
-                  'Dimes',
-                  'Cipriani',
-                  'Balthazar',
-                  'Lola Taverna',
-                  "Ray's",
-                  "Paul's Baby Grand",
-                  ].map((restaurant, index) => (
-                    <li key={index} className="mb-2 py-1 text-yellow-500 font-black text-rounded-xl uppercase">
-                      {restaurant}
-                    </li>
-                  ))}
-                </ul>
+                    {/* Replace the array with your actual list of top 10 restaurants and their scores */}
+                    {[
+                      { name: 'Lucien', score: 10 },
+                      { name: 'Clandestino', score: 7.619047619 },
+                      { name: 'Carbone', score: 6.666666667 },
+                      { name: "Fanelli's", score: 5.714285714 },
+                      { name: 'Dimes', score: 5.238095238 },
+                      { name: 'Cipriani', score: 4.761904762 },
+                      { name: 'Balthazar', score: 4.285714286 },
+                      { name: 'Lola Taverna', score: 4.285714286 },
+                      { name: "Ray's", score: 3.80952381 },
+                      { name: "Paul's Baby Grand", score: 3.333333333 },
+                    ].map((restaurant, index) => {
+                      const emojiCount = Math.round(restaurant.score);
+                      return (
+                        <li
+                          key={index}
+                          className="mb-2 py-3 text-yellow-500 font-black text-xl uppercase flex justify-between items-center"
+                        >
+                          <span>#{index + 1}: {restaurant.name}</span>
+                          <span>
+                            {Array(emojiCount)
+                              .fill('🤮')
+                              .join('')}
+                          </span>
+                        </li>
+                      );
+                    })}
+                  </ul>
                 <button
                   onClick={handleCloseTopTen}
                   className="bg-yellow-500 text-black font-medium py-2 px-4 rounded-lg shadow-md  mx-auto mb-4"
