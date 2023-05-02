@@ -301,7 +301,7 @@ return (
                       { name: "Ray's", score: 3.80952381 },
                       { name: "Paul's Baby Grand", score: 3.333333333 },
                     ].map((restaurant, index) => {
-                      const emojiCount = Math.round(restaurant.score);
+                      const emojiCount = Math.round(restaurant.score/2);
                       return (
                         <li
                           key={index}
