@@ -35,13 +35,15 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
 }
 
-const MainContent = () => {
+const MainContent = (props) => {
 
         const mapContainer = useRef(null);
         const [map, setMap] = useState(null);
         const [buttonData, setButtonData] = useState([]);
         const mapRef = useRef(null);
         const [activeTab, setActiveTab] = React.useState(0);
+        const [top10Locations, setTop10Locations] = useState([]);
+
 
         const handleTabClick = (tabIndex) => {
           setActiveTab(tabIndex);
@@ -55,24 +57,58 @@ const MainContent = () => {
 
         const geocoderContainer = useRef(null);
 
-        // Add handleFlyToButtonClick function
-        let handleFlyToButtonClick = (event) => {
-            const latitude = parseFloat(event.target.getAttribute('data-latitude'));
-            const longitude = parseFloat(event.target.getAttribute('data-longitude'));
-            const description = event.target.dataset.description;
-            
+          const FlyToPlace = (name, latitude, longitude, simulateClick = false) => {
             if (map) {
               map.flyTo({ center: [longitude, latitude], zoom: 14 });
             }
-
+          
+            // Update the UI elements with the feature data
+            document.getElementById("location").innerHTML = name;
+            for (let i = 1; i <= 20; i++) {
+              const postEl = document.getElementById(`p${i}`);
+              postEl.innerHTML = "";
+            }
+          
             destroyDrawer();
-            new mapboxgl.Popup({
+            console.log("DrawerDestroyed");
+          
+            const popup = new mapboxgl.Popup({
               closeButton: false,
-              })
+            })
               .setLngLat([longitude, latitude])
-              .setHTML(description)
+              .setHTML(name)
               .addTo(mapRef.current);
+          
+            if (simulateClick) {
+              // Simulate clicking on the corresponding map marker
+              map.fire("click", {
+                lngLat: new mapboxgl.LngLat(longitude, latitude),
+                features: [
+                  {
+                    geometry: {
+                      coordinates: [longitude, latitude],
+                    },
+                    properties: { Name: name },
+                  },
+                ],
+              });
+            } else {
+              map.on("mouseenter", (e) => {
+                // Check if the cursor is over the target place
+                if (
+                  e.lngLat.lng.toFixed(9) === longitude.toFixed(9) &&
+                  e.lngLat.lat.toFixed(9) === latitude.toFixed(9)
+                ) {
+                  presentDrawer(); // Call presentDrawer function
+                }
+              });
+          
+              popup.on("close", () => {
+                map.off("mouseenter");
+              });
+            }
           };
+          
 
         useEffect(() => {
           if (map) return; // Initialize the map only once
@@ -152,6 +188,9 @@ const MainContent = () => {
                       closeOnClick: false,
                     });
       
+                    const locations = getTop10HeinosityLocations(data);
+                    setTop10Locations(locations);
+                                
                     mapInstance.on("mouseenter", "places", (e) => {
                       mapInstance.getCanvas().style.cursor = "pointer";
       
@@ -222,6 +261,64 @@ buttons.forEach(button => {
 }, [map]);
 
 
+const getTop10HeinosityLocations = (data) => {
+  const top10Locations = data.features
+    .sort((a, b) => b.properties.HeinosityIndex - a.properties.HeinosityIndex)
+    .slice(0, 10)
+    .map((feature) => ({
+      id: feature.properties.id,
+      name: feature.properties.Name,
+      latitude: feature.geometry.coordinates[1],
+      longitude: feature.geometry.coordinates[0],
+      score: feature.properties.HeinosityIndex,
+    }));
+
+  return top10Locations;
+};
+
+const triggerMapClick = (name) => {
+  if (!map) return;
+
+  const features = map.querySourceFeatures({ layers: ["places"] });
+  console.log("features: ",features);
+  const targetFeature = features.find((feature) => feature.properties.Name === name);
+
+  if (targetFeature) {
+    console.log("Clicked feature: ",targetFeature.properties.Name);
+    map.flyTo({
+      center: targetFeature.geometry.coordinates,
+      zoom: 16,
+    });
+
+    setTimeout(() => {
+      map.fire("click", {
+        lngLat: targetFeature.geometry.coordinates,
+        features: [targetFeature],
+      });
+    }, 1000);
+  }
+};
+
+
+ // Add handleFlyToButtonClick function
+ let handleFlyToButtonClick = (event) => {
+  const latitude = parseFloat(event.target.getAttribute('data-latitude'));
+  const longitude = parseFloat(event.target.getAttribute('data-longitude'));
+  const description = event.target.dataset.description;
+  
+  if (map) {
+    map.flyTo({ center: [longitude, latitude], zoom: 14 });
+  }
+
+  destroyDrawer();
+  new mapboxgl.Popup({
+    closeButton: false,
+    })
+    .setLngLat([longitude, latitude])
+    .setHTML(description)
+    .addTo(mapRef.current);
+};
+
 const geocoderRef = (element) => {
   if (element) {
     geocoderContainer.current = element;
@@ -276,56 +373,55 @@ return (
                 </Tab>
               ))}
             </Tab.List>
-            <Tab.Panels className="">
-              <Tab.Panel
+            <Tab.Panels
+              className={classNames(
+                'rounded-xl bg-gray bg-opacity-50 backdrop-blur-sm p-3 tab-panel-transition',
+                'ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none'
+              )}
+            >              
+            <Tab.Panel
                 className={classNames(
                              )}
               >
               </Tab.Panel>
               <Tab.Panel
-                className={classNames(
-                  'rounded-xl bg-gray bg-opacity-50 backdrop-blur-sm p-3 tab-panel-transition',
-                  'ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none',
-                )}
-              >
-                <ul className="w-full text-left p-5 max-h-72 overflow-y-auto">
-                  {[
-                    { name: 'Lucien', score: 10 },
-                    { name: 'Clandestino', score: 7.619047619 },
-                    { name: 'Carbone', score: 6.666666667 },
-                    { name: "Fanelli's", score: 5.714285714 },
-                    { name: 'Dimes', score: 5.238095238 },
-                    { name: 'Cipriani', score: 4.761904762 },
-                    { name: 'Balthazar', score: 4.285714286 },
-                    { name: 'Lola Taverna', score: 4.285714286 },
-                    { name: "Ray's", score: 3.80952381 },
-                    { name: "Paul's Baby Grand", score: 3.333333333 },
-                  ].map((restaurant, index) => {
-                    const emojiCount = Math.round(restaurant.score / 2);
-                    return (
-                      <li
-                        key={index}
-                        className="mb-2 py-3 text-yellow-500 font-black text uppercase flex justify-between items-center border-b border-yellow-200 border-opacity-20 cursor-pointer hover:bg-yellow-500 hover:bg-opacity-30 hover:border-opacity-100"
-                      >
-                        <span className="ml-2">#{index + 1}: {restaurant.name}</span>
-                        <span className="mr-2">
-                          {Array(emojiCount)
-                            .fill('🤮')
-                            .join('')}
-                        </span>
-                      </li>
-                    );
-                  })}
-                </ul>
+                  locations={top10Locations}
+                  className={classNames(
+                    'rounded-xl bg-gray bg-opacity-50 backdrop-blur-sm p-3 tab-panel-transition',
+                    'ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none',
+                  )}
+                  map={map}
+                  >
+                  <ul className="w-full text-left p-5 max-h-72 overflow-y-auto">
+                    {top10Locations.map((restaurant, index) => {
+                      const emojiCount = Math.round(restaurant.score / 4);
+                      return (
+                        <li
+                          key={index}
+                          className="mb-2 py-3 text-yellow-500 font-black text uppercase flex justify-between items-center border-b border-yellow-200 border-opacity-20 cursor-pointer hover:bg-yellow-500 hover:bg-opacity-30 hover:border-opacity-100"
+                          onClick={() => {
+                            console.log("Clicked restaurant name:", restaurant.name);
+                            triggerMapClick(restaurant.name, map);
+                          }}                                    >
+                          <span className="ml-2">#{index + 1}: {restaurant.name}</span>
+                          <span className="mr-2">
+                            {Array(emojiCount)
+                              .fill('🤮')
+                              .join('')}
+                          </span>
+                        </li>
+                      );
+                    })}
+                  </ul>
 
+                  <button
+                    onClick={handleCloseTopTen}
+                    className="bg-yellow-500 text-black font-medium py-2 px-4 rounded-lg shadow-md  mx-auto mb-4"
+                  >
+                    Reveal all Down Bad establishments
+                  </button>
+                </Tab.Panel>
 
-                <button
-                  onClick={handleCloseTopTen}
-                  className="bg-yellow-500 text-black font-medium py-2 px-4 rounded-lg shadow-md  mx-auto mb-4"
-                >
-                  Reveal all Down Bad establishments
-                </button>
-              </Tab.Panel>
               <Tab.Panel
                 className={classNames(
                   'rounded-xl bg-gray bg-opacity-50 backdrop-blur-sm p-3 tab-panel-transition',

@@ -96,28 +96,26 @@ function Drawer({  buttonData = [], onFlyToButtonClick }) {
       <h1 id="location" className="ion-padding">
         Heinosities
       </h1>
-      <div id="button-group" className="py-2 pl-4 flex justify-left items-center space-x-4 overflow-x-auto">
-        
-        <h2 className="flex-shrink-0">Associated: </h2>
-        <button type="button" data-latitude="40.7270179" data-longitude="-73.9830509" data-description="Lucy's" class="flex-shrink-0 bg-yellow-500 py-2 px-4 mx-2 rounded-full" onClick={onFlyToButtonClick}
-
->Lucy's</button>
-        <div id="tags" className="flex-shrink-0">
-        {buttonData.map((button, index) => (
-          <button
-            key={index}
-            type="button"
-            data-latitude={button.latitude}
-            data-longitude={button.longitude}
-            data-description={button.description}
-            className="flex-shrink-0 bg-yellow-500 py-2 px-4 mx-2 rounded-full"
-            onClick={onFlyToButtonClick}
-          >
-            {button.label}
-          </button>
-        ))}
-      </div>
-      </div>
+      {buttonData.length > 0 ? (
+        <div id="button-group" className="py-2 pl-4 flex justify-left items-center space-x-4 overflow-x-auto">
+          <h2 className="flex-shrink-0">Associated: </h2>
+          <div id="tags" className="flex-shrink-0">
+          {buttonData.map((button, index) => (
+            <button
+              key={index}
+              type="button"
+              data-latitude={button.latitude}
+              data-longitude={button.longitude}
+              data-description={button.description}
+              className="flex-shrink-0 bg-yellow-500 py-2 px-4 mx-2 rounded-full"
+              onClick={onFlyToButtonClick}
+            >
+              {button.label}
+            </button>
+          ))}
+        </div>
+        </div>
+      ) : null}
       <div className="content" overflow-y>
         <div id="p1"></div>
         <div id="p2"></div>
