@@ -375,15 +375,12 @@ return (
             </Tab.List>
             <Tab.Panels
               className={classNames(
-                'rounded-xl bg-gray bg-opacity-50 backdrop-blur-sm p-3 tab-panel-transition',
-                'ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none'
+                
               )}
             >              
             <Tab.Panel
-                className={classNames(
-                             )}
-              >
-              </Tab.Panel>
+                className={classNames()}
+              ></Tab.Panel>
               <Tab.Panel
                   locations={top10Locations}
                   className={classNames(
