@@ -18,6 +18,7 @@ function parseButtons(html) {
   const doc = parser.parseFromString(html, 'text/html');
   const buttons = doc.querySelectorAll('button');
   const buttonData = [];
+  
 
   buttons.forEach(button => {
     buttonData.push({
@@ -335,14 +336,23 @@ const geocoderRef = (element) => {
             <div class="mapboxgl-ctrl-geocoder--suggestion-title" style="color: ${color};">${item.place_name}${downBadText}</div>
           </div>
         `;
-      }
+      },      
     });
-    
-    
 
-    /*geocoder.on("result", (e) => {
-      map.flyTo({ center: e.result.geometry.coordinates, zoom: 14 });
-    });*/
+
+    geocoder.on('result', (e) => {
+      // Close any existing popups
+      if (map.getLayer('popup')) {
+        map.removeLayer('popup');
+      }
+    
+      // Create a new popup and set its content to the selected place's name
+      const popup = new mapboxgl.Popup({ closeButton: false })
+        .setLngLat(e.result.center)
+        .setHTML(`<h3>${e.result.place_name}</h3>`)
+        .addTo(map);
+    });    
+
 
     while (geocoderContainer.current.firstChild) {
       geocoderContainer.current.removeChild(geocoderContainer.current.firstChild);
