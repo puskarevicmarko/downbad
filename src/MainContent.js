@@ -327,9 +327,9 @@ const geocoderRef = (element) => {
         }));
       },
       render: (item) => {
-        const isGreen = data.features.some(feature => feature.properties.Name === item.place_name);
-        const color = isGreen ? 'green' : 'gray';
-        const downBadText = isGreen ? ' is Down Bad  ⚠️' : '';
+        const isDarkRed = data.features.some(feature => feature.properties.Name === item.place_name);
+        const color = isDarkRed ? '#F00505' : 'gray';
+        const downBadText = isDarkRed ? ' is Down Bad ⚠️' : '';
         return `
           <div class="mapboxgl-ctrl-geocoder--suggestion">
             <div class="mapboxgl-ctrl-geocoder--suggestion-title" style="color: ${color};">${item.place_name}${downBadText}</div>
@@ -337,6 +337,7 @@ const geocoderRef = (element) => {
         `;
       }
     });
+    
     
 
     /*geocoder.on("result", (e) => {
