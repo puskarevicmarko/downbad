@@ -43,6 +43,7 @@ const MainContent = (props) => {
         const mapRef = useRef(null);
         const [activeTab, setActiveTab] = React.useState(0);
         const [top10Locations, setTop10Locations] = useState([]);
+        const [data, setData] = useState(null);
 
 
         const handleTabClick = (tabIndex) => {
@@ -188,10 +189,13 @@ const MainContent = (props) => {
                       closeOnClick: false,
                     });
       
+                    setData(data);
                     const locations = getTop10HeinosityLocations(data);
                     setTop10Locations(locations);
                                 
                     mapInstance.on("mouseenter", "places", (e) => {
+                      console.log("Simclick: ", e.features[0].properties.Name);
+
                       mapInstance.getCanvas().style.cursor = "pointer";
       
                       const coordinates = e.features[0].geometry.coordinates.slice();
@@ -276,30 +280,6 @@ const getTop10HeinosityLocations = (data) => {
   return top10Locations;
 };
 
-const triggerMapClick = (name) => {
-  if (!map) return;
-
-  const features = map.querySourceFeatures({ layers: ["places"] });
-  console.log("features: ",features);
-  const targetFeature = features.find((feature) => feature.properties.Name === name);
-
-  if (targetFeature) {
-    console.log("Clicked feature: ",targetFeature.properties.Name);
-    map.flyTo({
-      center: targetFeature.geometry.coordinates,
-      zoom: 16,
-    });
-
-    setTimeout(() => {
-      map.fire("click", {
-        lngLat: targetFeature.geometry.coordinates,
-        features: [targetFeature],
-      });
-    }, 1000);
-  }
-};
-
-
  // Add handleFlyToButtonClick function
  let handleFlyToButtonClick = (event) => {
   const latitude = parseFloat(event.target.getAttribute('data-latitude'));
@@ -338,6 +318,66 @@ const geocoderRef = (element) => {
     }
 
     geocoderContainer.current.appendChild(geocoder.onAdd(map));
+  }
+};
+
+const triggerMapClick = (name, data) => {
+  if (!map) return;
+
+
+  const targetFeature = data.features.find((feature) => feature.properties.Name === name);
+  console.log("targetfeature: ", targetFeature.properties.Name, " name: ", name);
+
+  if (targetFeature) {
+    console.log("Clicked feature: ", targetFeature.properties.Name);
+    map.flyTo({
+      center: targetFeature.geometry.coordinates,
+      zoom: 16,
+    });
+
+    setSelectedIndex(0); // Switch to the Browse tab
+
+    const popup = new mapboxgl.Popup({
+      closeButton: false,
+    }).setLngLat(targetFeature.geometry.coordinates)
+      .setHTML(targetFeature.properties.Name)
+      .addTo(map);
+
+      const feature = targetFeature.properties;
+        document.getElementById("location").innerHTML = feature.Name;
+        const parsedButtons = parseButtons(feature.Tags);
+        setButtonData(parsedButtons);
+
+        for (let i = 1; i <= 20; i++) {
+          const postEl = document.getElementById(`p${i}`);
+          postEl.innerHTML = feature[`Post${i}`];
+        }
+
+        presentDrawer();
+
+
+      map.on("mouseleave", "places", () => {
+        map.getCanvas().style.cursor = "";
+        popup.remove();
+      });
+      
+/*
+    map.once('moveend', () => {
+      const point = map.project(targetFeature.geometry.coordinates);
+      const features = map.queryRenderedFeatures(point, { layers: ['places'] });
+    
+      if (features.length > 0) {
+        const clickedFeature = features[0];
+        console.log('Clicked feature:', clickedFeature);
+
+        map.fire('click', {
+          lngLat: targetFeature.geometry.coordinates,
+          features: [clickedFeature],
+        });
+        console.log('Clicked feature:', clickedFeature);
+      }
+    });
+*/
   }
 };
 
@@ -388,17 +428,19 @@ return (
                     'ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none',
                   )}
                   map={map}
+                  data={data}
+
                   >
                   <ul className="w-full text-left p-5 max-h-72 overflow-y-auto">
                     {top10Locations.map((restaurant, index) => {
-                      const emojiCount = Math.round(restaurant.score / 4);
+                      const emojiCount = Math.round(restaurant.score / 5);
                       return (
                         <li
                           key={index}
                           className="mb-2 py-3 text-yellow-500 font-black text uppercase flex justify-between items-center border-b border-yellow-200 border-opacity-20 cursor-pointer hover:bg-yellow-500 hover:bg-opacity-30 hover:border-opacity-100"
                           onClick={() => {
                             console.log("Clicked restaurant name:", restaurant.name);
-                            triggerMapClick(restaurant.name, map);
+                            triggerMapClick(restaurant.name, data);
                           }}                                    >
                           <span className="ml-2">#{index + 1}: {restaurant.name}</span>
                           <span className="mr-2">
