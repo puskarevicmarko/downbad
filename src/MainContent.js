@@ -303,15 +303,45 @@ const geocoderRef = (element) => {
   if (element) {
     geocoderContainer.current = element;
 
+    const nyBoundingBox = [
+      -74.1687, // West
+      40.5722, // South
+      -73.8062, // East
+      40.9467, // North
+    ];
+
     const geocoder = new MapboxGeocoder({
       accessToken: mapboxgl.accessToken,
       mapboxgl: mapboxgl,
-      marker: false,
+      countries: 'us',
+      types: 'poi',
+      proximity: [-73.986, 40.755],
+      localGeocoder: (query) => {
+        const matchingFeatures = data.features.filter(feature => {
+          return feature.properties.Name.toLowerCase().includes(query.toLowerCase());
+        });
+        return matchingFeatures.map(feature => ({
+          center: feature.geometry.coordinates,
+          place_name: feature.properties.Name,
+          bbox: feature.bbox
+        }));
+      },
+      render: (item) => {
+        const isGreen = data.features.some(feature => feature.properties.Name === item.place_name);
+        const color = isGreen ? 'green' : 'gray';
+        const downBadText = isGreen ? ' is Down Bad  ⚠️' : '';
+        return `
+          <div class="mapboxgl-ctrl-geocoder--suggestion">
+            <div class="mapboxgl-ctrl-geocoder--suggestion-title" style="color: ${color};">${item.place_name}${downBadText}</div>
+          </div>
+        `;
+      }
     });
+    
 
-    geocoder.on("result", (e) => {
+    /*geocoder.on("result", (e) => {
       map.flyTo({ center: e.result.geometry.coordinates, zoom: 14 });
-    });
+    });*/
 
     while (geocoderContainer.current.firstChild) {
       geocoderContainer.current.removeChild(geocoderContainer.current.firstChild);
