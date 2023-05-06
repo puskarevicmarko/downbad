@@ -1,24 +1,20 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Tabs, Tab, TabPanel } from '@headlessui/react';
+import { Tab } from '@headlessui/react';
 
 import logo from './assets/logo.png';
 import subLogo from './assets/sublogo.svg';
-import axios from 'axios';
 import mapboxgl from 'mapbox-gl';
 import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
-import $ from 'jquery';
 import csv2geojson from 'csv2geojson';
 import Drawer from './Drawer.js';
 import { presentDrawer } from './Drawer.js';
 import { destroyDrawer } from './Drawer.js';
-
 
 function parseButtons(html) {
   const parser = new DOMParser();
   const doc = parser.parseFromString(html, 'text/html');
   const buttons = doc.querySelectorAll('button');
   const buttonData = [];
-  
 
   buttons.forEach(button => {
     buttonData.push({
@@ -45,11 +41,6 @@ const MainContent = (props) => {
         const [activeTab, setActiveTab] = React.useState(0);
         const [top10Locations, setTop10Locations] = useState([]);
         const [data, setData] = useState(null);
-
-
-        const handleTabClick = (tabIndex) => {
-          setActiveTab(tabIndex);
-        };
         
         const [selectedIndex, setSelectedIndex] = useState(0);
 
@@ -58,58 +49,6 @@ const MainContent = (props) => {
         };
 
         const geocoderContainer = useRef(null);
-
-          const FlyToPlace = (name, latitude, longitude, simulateClick = false) => {
-            if (map) {
-              map.flyTo({ center: [longitude, latitude], zoom: 14 });
-            }
-          
-            // Update the UI elements with the feature data
-            document.getElementById("location").innerHTML = name;
-            for (let i = 1; i <= 20; i++) {
-              const postEl = document.getElementById(`p${i}`);
-              postEl.innerHTML = "";
-            }
-          
-            destroyDrawer();
-            console.log("DrawerDestroyed");
-          
-            const popup = new mapboxgl.Popup({
-              closeButton: false,
-            })
-              .setLngLat([longitude, latitude])
-              .setHTML(name)
-              .addTo(mapRef.current);
-          
-            if (simulateClick) {
-              // Simulate clicking on the corresponding map marker
-              map.fire("click", {
-                lngLat: new mapboxgl.LngLat(longitude, latitude),
-                features: [
-                  {
-                    geometry: {
-                      coordinates: [longitude, latitude],
-                    },
-                    properties: { Name: name },
-                  },
-                ],
-              });
-            } else {
-              map.on("mouseenter", (e) => {
-                // Check if the cursor is over the target place
-                if (
-                  e.lngLat.lng.toFixed(9) === longitude.toFixed(9) &&
-                  e.lngLat.lat.toFixed(9) === latitude.toFixed(9)
-                ) {
-                  presentDrawer(); // Call presentDrawer function
-                }
-              });
-          
-              popup.on("close", () => {
-                map.off("mouseenter");
-              });
-            }
-          };
           
 
         useEffect(() => {
@@ -135,9 +74,7 @@ const MainContent = (props) => {
             mapRef.current = mapInstance; // Update mapRef with the latest map instance
             mapInstance.resize();
       
-            fetch(
-              "https://docs.google.com/spreadsheets/d/1TJ30712MKFqUTv-EiLfaFQnJ_Gb7qwJBh5U5unOVkRU/gviz/tq?tqx=out:csv&sheet=Sheet1"
-            )
+            fetch(process.env.REACT_APP_API_KEY)
               .then((response) => response.text())
               .then((csvData) => {
                 csv2geojson.csv2geojson(
@@ -402,23 +339,7 @@ const triggerMapClick = (name, data) => {
         popup.remove();
       });
       
-/*
-    map.once('moveend', () => {
-      const point = map.project(targetFeature.geometry.coordinates);
-      const features = map.queryRenderedFeatures(point, { layers: ['places'] });
-    
-      if (features.length > 0) {
-        const clickedFeature = features[0];
-        console.log('Clicked feature:', clickedFeature);
 
-        map.fire('click', {
-          lngLat: targetFeature.geometry.coordinates,
-          features: [clickedFeature],
-        });
-        console.log('Clicked feature:', clickedFeature);
-      }
-    });
-*/
   }
 };
 
