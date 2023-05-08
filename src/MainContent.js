@@ -33,7 +33,7 @@ function classNames(...classes) {
 }
 
 const MainContent = (props) => {
-
+console.log("maincontent1");
         const mapContainer = useRef(null);
         const [map, setMap] = useState(null);
         const [buttonData, setButtonData] = useState([]);
@@ -73,7 +73,9 @@ const MainContent = (props) => {
             setMap(mapInstance);
             mapRef.current = mapInstance; // Update mapRef with the latest map instance
             mapInstance.resize();
+            console.log("Load1");
       
+
             fetch(process.env.REACT_APP_API_KEY)
               .then((response) => response.text())
               .then((csvData) => {
@@ -128,8 +130,13 @@ const MainContent = (props) => {
                     });
       
                     setData(data);
-                    const locations = getTop10HeinosityLocations(data);
+                    //const locations = getTop10HeinosityLocations(data);
+                    fetchTop10HeinosityLocations();
+
+                    /*
                     setTop10Locations(locations);
+                    saveTop10HeinousPlacesToFile(locations);
+                    */
                                 
                     mapInstance.on("mouseenter", "places", (e) => {
                       console.log("Simclick: ", e.features[0].properties.Name);
@@ -203,6 +210,18 @@ buttons.forEach(button => {
 }, [map]);
 
 
+const fetchTop10HeinosityLocations = async () => {
+  try {
+    const response = await fetch('/top10HeinousPlaces.json');
+    const data = await response.json();
+    setTop10Locations(data);
+    console.log("Success");
+  } catch (error) {
+    console.error('Error fetching top 10 heinous places:', error);
+  }
+};
+
+/*
 const getTop10HeinosityLocations = (data) => {
   const top10Locations = data.features
     .sort((a, b) => b.properties.HeinosityIndex - a.properties.HeinosityIndex)
@@ -216,7 +235,20 @@ const getTop10HeinosityLocations = (data) => {
     }));
 
   return top10Locations;
+};*/
+
+const saveTop10HeinousPlacesToFile = (top10Locations) => {
+  const jsonString = JSON.stringify(top10Locations, null, 2);
+  const blob = new Blob([jsonString], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const downloadLink = document.createElement('a');
+  downloadLink.href = url;
+  downloadLink.download = 'top10HeinousPlaces.json';
+  document.body.appendChild(downloadLink);
+  downloadLink.click();
+  document.body.removeChild(downloadLink);
 };
+
 
  // Add handleFlyToButtonClick function
  let handleFlyToButtonClick = (event) => {
