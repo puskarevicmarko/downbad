@@ -54,7 +54,7 @@ const MainContent = (props) => {
           jsConfetti.addConfetti({
             emojis: ['⚠️', '🤮'],
             confettiRadius: 5,
-            confettiNumber: 20,
+            confettiNumber: 10,
           });
 
 
@@ -335,13 +335,7 @@ const geocoderRef = (element) => {
     });
 
 
-    geocoder.on('result', (e) => {
-      // Close any existing popups
-      
-
-      if (map.getLayer('popup')) {
-        map.removeLayer('popup');
-      }
+    geocoder.on('result', (e) => {      
     
       const name = e.result.place_name;
       const isDarkRed = data.features.some(feature => feature.properties.Name === name);
@@ -403,7 +397,6 @@ const triggerMapClick = (name, data) => {
         break;
       }
     }
-
     // Update state with posts data
     setPostsData(posts);
 
