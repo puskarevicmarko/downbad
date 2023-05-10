@@ -336,7 +336,7 @@ const geocoderRef = (element) => {
 
     geocoder.on('result', (e) => {
       // Close any existing popups
-      setSelectedIndex(0);
+      
 
       if (map.getLayer('popup')) {
         map.removeLayer('popup');
@@ -348,10 +348,9 @@ const geocoderRef = (element) => {
       if (isDarkRed) {
         triggerMapClick(name, data);
       }
+      setSelectedIndex(0);
     });
     
-
-
     while (geocoderContainer.current.firstChild) {
       geocoderContainer.current.removeChild(geocoderContainer.current.firstChild);
     }
@@ -531,13 +530,13 @@ return (
                   data={data}
 
                   >
-                  <ul className="w-full text-left p-5 max-h-72 overflow-y-auto">
+                  <ul className="w-full text-left p-2 max-h-72 overflow-y-auto">
                     {top10Locations.map((restaurant, index) => {
                       const emojiCount = Math.round(restaurant.score / 5);
                       return (
                         <li
                           key={index}
-                          className="mb-2 py-3 text-yellow-500 font-black text uppercase flex justify-between items-center border-b border-yellow-200 border-opacity-20 cursor-pointer hover:bg-yellow-500 hover:bg-opacity-30 hover:border-opacity-100"
+                          className="mb-2 py-2 text-yellow-500 font-black text uppercase flex justify-between items-center border-b border-yellow-200 border-opacity-20 cursor-pointer hover:bg-yellow-500 hover:bg-opacity-30 hover:border-opacity-100"
                           onClick={() => {
                             triggerMapClick(restaurant.name, data);
                           }}                                    >
