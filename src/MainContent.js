@@ -349,7 +349,7 @@ const geocoderRef = (element) => {
       if (isDarkRed) {
         triggerMapClick(name, data);
       }
-      setSelectedIndex(0);
+     //setSelectedIndex(0);
     });
     
     while (geocoderContainer.current.firstChild) {
