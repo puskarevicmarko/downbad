@@ -43,6 +43,7 @@ console.log("maincontent1");
         const [data, setData] = useState(null);
         
         const [selectedIndex, setSelectedIndex] = useState(0);
+        const [postsData, setPostsData] = useState([]);
 
         const handleCloseTopTen = () => {
           setSelectedIndex(0); // Switch to the Browse tab
@@ -170,17 +171,33 @@ console.log("maincontent1");
                     const parsedButtons = parseButtons(feature.Tags);
                     setButtonData(parsedButtons);
                     
+
+                    // Store posts in an array
+                    let posts = [];
+                    for (let i = 1; i <= 20; i++) {
+                      const postContent = feature[`Post${i}`];
+                      if (postContent) {
+                        posts.push(postContent);
+                      } else {
+                        break;
+                      }
+                    }
+
+                    // Update state with posts data
+                    setPostsData(posts);
+
+                    /*
                    for (let i = 1; i <= 20; i++) {
                       const postEl = document.getElementById(`p${i}`);
                       postEl.innerHTML = feature[`Post${i}`];
-                    }
+                    }*/
 
                     presentDrawer();
 
                     mapInstance.flyTo({
                         center: e.features[0].geometry.coordinates
                         });
-          });
+          }); 
         }
       );
     })
@@ -470,7 +487,7 @@ return (
         </div>
         <div className="absolute inset-0 map-container" ref={mapContainer} id="map" />
       </section>
-      <Drawer buttonData={buttonData} onFlyToButtonClick={handleFlyToButtonClick} />
+      <Drawer buttonData={buttonData} onFlyToButtonClick={handleFlyToButtonClick} posts={postsData} />
     </>
     
   );

@@ -1,10 +1,19 @@
 import React, { useEffect } from 'react';
 import { CupertinoPane } from 'cupertino-pane';
+import { FixedSizeList as List } from 'react-window';
+
+const Post = ({ index, style, data }) => (
+  <div style={style}>
+    <div id={`p${index + 1}`}>
+      {data[index]}
+    </div>
+  </div>
+);
 
 let drawer;
 
-function Drawer({  buttonData = [], onFlyToButtonClick }) {
-
+function Drawer({ buttonData = [], onFlyToButtonClick, posts = [] }) {
+  
   useEffect(() => {
     
     const topHeight = 600;
@@ -117,26 +126,19 @@ function Drawer({  buttonData = [], onFlyToButtonClick }) {
         </div>
       ) : null}
       <div className="content" overflow-y>
-        <div id="p1"></div>
-        <div id="p2"></div>
-        <div id="p3"></div>
-        <div id="p4"></div>
-        <div id="p5"></div>
-        <div id="p6"></div>
-        <div id="p7"></div>
-        <div id="p8"></div>
-        <div id="p9"></div>
-        <div id="p10"></div>
-        <div id="p11"></div>
-        <div id="p12"></div>
-        <div id="p13"></div>
-        <div id="p14"></div>
-        <div id="p15"></div>
-        <div id="p16"></div>
-        <div id="p17"></div>
-        <div id="p18"></div>
-        <div id="p19"></div>
-        <div id="p20"></div>
+      <List
+            height={posts.length*750} // adjust based on your layout
+            itemCount={posts.length}
+            itemSize={750} // adjust based on your layout
+        >
+            {({ index, style }) => {
+                const post = posts[index];
+                return (
+                    <div id={`p${index+1}`} style={style} dangerouslySetInnerHTML={{ __html: post }}>
+                    </div>
+                );
+            }}
+        </List>
     </div>
     </ion-drawer>
   );
