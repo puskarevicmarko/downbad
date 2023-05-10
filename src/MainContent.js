@@ -52,9 +52,9 @@ const MainContent = (props) => {
 
           // Add confetti using custom emojis
           jsConfetti.addConfetti({
-            emojis: ['⚠️', '🤮', '🤡 ', '🤢', '🤮', '💀'],
+            emojis: ['⚠️', '🤮'],
             confettiRadius: 5,
-            confettiNumber: 50,
+            confettiNumber: 20,
           });
 
 
@@ -361,14 +361,14 @@ const geocoderRef = (element) => {
 };
 
 const triggerMapClick = (name, data) => {
-  const jsConfetti = new JSConfetti();
+  /*const jsConfetti = new JSConfetti();
 
   // Add confetti using custom emojis
   jsConfetti.addConfetti({
     emojis: ['⚠️', '🤮', '🤡 ', '👎', '🤮', '💀'],
     confettiRadius: 5,
     confettiNumber: 50,
-  });
+  });*/
 
   if (!map) return;
 
