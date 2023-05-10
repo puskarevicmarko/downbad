@@ -28,7 +28,7 @@ function Drawer({ buttonData = [], onFlyToButtonClick, posts = [] }) {
       },
       handleKeyboard: false,
       initialBreak: 'top',
-      buttonDestroy: true,
+      buttonDestroy: false,
       fastSwipeClose: true,
       dragBy: ['.draggable', 'ion-drawer h1'],
       events: {
