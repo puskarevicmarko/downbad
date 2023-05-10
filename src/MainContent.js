@@ -308,6 +308,7 @@ const geocoderRef = (element) => {
     const geocoder = new MapboxGeocoder({
       accessToken: mapboxgl.accessToken,
       mapboxgl: mapboxgl,
+      marker: false, 
       countries: 'us',
       types: 'poi',
       proximity: [-73.986, 40.755],

@@ -27,7 +27,7 @@ function Drawer({ buttonData = [], onFlyToButtonClick, posts = [] }) {
         bottom: { enabled: true, offset: 90 },
       },
       initialBreak: 'top',
-      buttonDestroy: false,
+      buttonDestroy: true,
       fastSwipeClose: true,
       dragBy: ['.draggable', 'ion-drawer h1'],
       events: {
