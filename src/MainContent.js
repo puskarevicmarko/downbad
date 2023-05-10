@@ -328,16 +328,20 @@ const geocoderRef = (element) => {
 
     geocoder.on('result', (e) => {
       // Close any existing popups
+      setSelectedIndex(0);
+      
       if (map.getLayer('popup')) {
         map.removeLayer('popup');
       }
     
-      // Create a new popup and set its content to the selected place's name
-      const popup = new mapboxgl.Popup({ closeButton: false })
-        .setLngLat(e.result.center)
-        .setHTML(`<h3>${e.result.place_name}</h3>`)
-        .addTo(map);
-    });    
+      const name = e.result.place_name;
+      const isDarkRed = data.features.some(feature => feature.properties.Name === name);
+      
+      if (isDarkRed) {
+        triggerMapClick(name, data);
+      }
+    });
+    
 
 
     while (geocoderContainer.current.firstChild) {
@@ -350,7 +354,6 @@ const geocoderRef = (element) => {
 
 const triggerMapClick = (name, data) => {
   if (!map) return;
-
 
   const targetFeature = data.features.find((feature) => feature.properties.Name === name);
   console.log("targetfeature: ", targetFeature.properties.Name, " name: ", name);
@@ -370,27 +373,34 @@ const triggerMapClick = (name, data) => {
       .setHTML(targetFeature.properties.Name)
       .addTo(map);
 
-      const feature = targetFeature.properties;
-        document.getElementById("location").innerHTML = feature.Name;
-        const parsedButtons = parseButtons(feature.Tags);
-        setButtonData(parsedButtons);
+    const feature = targetFeature.properties;
+    document.getElementById("location").innerHTML = feature.Name;
+    const parsedButtons = parseButtons(feature.Tags);
+    setButtonData(parsedButtons);
 
-        for (let i = 1; i <= 20; i++) {
-          const postEl = document.getElementById(`p${i}`);
-          postEl.innerHTML = feature[`Post${i}`];
-        }
+    // Store posts in an array
+    let posts = [];
+    for (let i = 1; i <= 20; i++) {
+      const postContent = feature[`Post${i}`];
+      if (postContent) {
+        posts.push(postContent);
+      } else {
+        break;
+      }
+    }
 
-        presentDrawer();
+    // Update state with posts data
+    setPostsData(posts);
 
+    presentDrawer();
 
-      map.on("mouseleave", "places", () => {
-        map.getCanvas().style.cursor = "";
-        popup.remove();
-      });
-      
-
+    map.on("mouseleave", "places", () => {
+      map.getCanvas().style.cursor = "";
+      popup.remove();
+    });
   }
 };
+
 
 return (
     <>
