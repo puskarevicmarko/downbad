@@ -26,6 +26,7 @@ function Drawer({ buttonData = [], onFlyToButtonClick, posts = [] }) {
         middle: { enabled: true, height: middleHeight },
         bottom: { enabled: true, offset: 90 },
       },
+      handleKeyboard: false,
       initialBreak: 'top',
       buttonDestroy: true,
       fastSwipeClose: true,
