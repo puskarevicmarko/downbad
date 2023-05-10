@@ -342,6 +342,7 @@ const geocoderRef = (element) => {
       
       if (isDarkRed) {
         triggerMapClick(name, data);
+        presentDrawer();
       }
      //setSelectedIndex(0);
     });
@@ -399,8 +400,6 @@ const triggerMapClick = (name, data) => {
     }
     // Update state with posts data
     setPostsData(posts);
-
-    presentDrawer();
 
     map.on("mouseleave", "places", () => {
       map.getCanvas().style.cursor = "";
@@ -533,6 +532,7 @@ return (
                           className="mb-2 py-2 text-yellow-500 font-black text uppercase flex justify-between items-center border-b border-yellow-200 border-opacity-20 cursor-pointer hover:bg-yellow-500 hover:bg-opacity-30 hover:border-opacity-100"
                           onClick={() => {
                             triggerMapClick(restaurant.name, data);
+                            presentDrawer();
                           }}                                    >
                           <span className="ml-2">#{index + 1}: {restaurant.name}</span>
                           <span className="mr-2">

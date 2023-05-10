@@ -33,8 +33,7 @@ function Drawer({ buttonData = [], onFlyToButtonClick, posts = [] }) {
       dragBy: ['.draggable', 'ion-drawer h1'],
       events: {
         onDrag: () => {
-          const height = drawer.getHeight();
-          content.style.height = `${height - content.offsetTop}px`;
+          content.style.height = `${window.screen.height - getPaneTransformY() - content.offsetTop}px`;
           content.setAttribute('style', 'overflow-y: hidden !important');
         },
         onDidPresent: () => {
