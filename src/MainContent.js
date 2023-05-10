@@ -10,11 +10,13 @@ import Drawer from './Drawer.js';
 import { presentDrawer } from './Drawer.js';
 import { destroyDrawer } from './Drawer.js';
 
+
 function parseButtons(html) {
   const parser = new DOMParser();
   const doc = parser.parseFromString(html, 'text/html');
   const buttons = doc.querySelectorAll('button');
   const buttonData = [];
+
 
   buttons.forEach(button => {
     buttonData.push({
@@ -33,7 +35,6 @@ function classNames(...classes) {
 }
 
 const MainContent = (props) => {
-console.log("maincontent1");
         const mapContainer = useRef(null);
         const [map, setMap] = useState(null);
         const [buttonData, setButtonData] = useState([]);
@@ -41,7 +42,7 @@ console.log("maincontent1");
         const [activeTab, setActiveTab] = React.useState(0);
         const [top10Locations, setTop10Locations] = useState([]);
         const [data, setData] = useState(null);
-        
+
         const [selectedIndex, setSelectedIndex] = useState(0);
         const [postsData, setPostsData] = useState([]);
 
@@ -53,15 +54,21 @@ console.log("maincontent1");
           
 
         useEffect(() => {
-          if (map) return; // Initialize the map only once
-
           mapboxgl.accessToken = "pk.eyJ1IjoicHVza2FyZXZpY21hcmtvIiwiYSI6ImNsOGM0ODN2ZzBkaG4zb245MXMyd3o3ZGkifQ.e6UX1du_kGFp5YzHVrnMLw";
       
+          const width = window.innerWidth;
+          const height = window.innerHeight;
+
+          console.log(width);
+          console.log(height);
+
           const mapInstance = new mapboxgl.Map({
             container: mapContainer.current,
             style: "mapbox://styles/puskarevicmarko/cl1v306x6006a14s2064gtpmd",
             center: [-73.991556, 40.744972],
             zoom: 12,
+            width: width,
+            height: height,      
           });
 
           // disable map rotation using right click + drag
@@ -73,9 +80,7 @@ console.log("maincontent1");
           mapInstance.on("load", () => {
             setMap(mapInstance);
             mapRef.current = mapInstance; // Update mapRef with the latest map instance
-            mapInstance.resize();
-            console.log("Load1");
-      
+            //mapInstance.resize();
 
             fetch(process.env.REACT_APP_API_KEY)
               .then((response) => response.text())
@@ -140,7 +145,6 @@ console.log("maincontent1");
                     */
                                 
                     mapInstance.on("mouseenter", "places", (e) => {
-                      console.log("Simclick: ", e.features[0].properties.Name);
 
                       mapInstance.getCanvas().style.cursor = "pointer";
       
@@ -224,7 +228,7 @@ const buttons = document.querySelectorAll("#tags .flex-shrink-0");
 buttons.forEach(button => {
   button.addEventListener("click", handleFlyToButtonClick);
 });
-}, [map]);
+}, []);
 
 
 const fetchTop10HeinosityLocations = async () => {
@@ -232,7 +236,6 @@ const fetchTop10HeinosityLocations = async () => {
     const response = await fetch('/top10HeinousPlaces.json');
     const data = await response.json();
     setTop10Locations(data);
-    console.log("Success");
   } catch (error) {
     console.error('Error fetching top 10 heinous places:', error);
   }
@@ -329,7 +332,7 @@ const geocoderRef = (element) => {
     geocoder.on('result', (e) => {
       // Close any existing popups
       setSelectedIndex(0);
-      
+
       if (map.getLayer('popup')) {
         map.removeLayer('popup');
       }
@@ -356,10 +359,8 @@ const triggerMapClick = (name, data) => {
   if (!map) return;
 
   const targetFeature = data.features.find((feature) => feature.properties.Name === name);
-  console.log("targetfeature: ", targetFeature.properties.Name, " name: ", name);
 
   if (targetFeature) {
-    console.log("Clicked feature: ", targetFeature.properties.Name);
     map.flyTo({
       center: targetFeature.geometry.coordinates,
       zoom: 16,
@@ -460,7 +461,6 @@ return (
                           key={index}
                           className="mb-2 py-3 text-yellow-500 font-black text uppercase flex justify-between items-center border-b border-yellow-200 border-opacity-20 cursor-pointer hover:bg-yellow-500 hover:bg-opacity-30 hover:border-opacity-100"
                           onClick={() => {
-                            console.log("Clicked restaurant name:", restaurant.name);
                             triggerMapClick(restaurant.name, data);
                           }}                                    >
                           <span className="ml-2">#{index + 1}: {restaurant.name}</span>
