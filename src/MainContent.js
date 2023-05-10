@@ -41,7 +41,7 @@ const MainContent = (props) => {
         const [top10Locations, setTop10Locations] = useState([]);
         const [data, setData] = useState(null);
 
-        const [selectedIndex, setSelectedIndex] = useState(0);
+        const [selectedIndex, setSelectedIndex] = useState(1);
         const [postsData, setPostsData] = useState([]);
 
         const handleCloseTopTen = () => {
@@ -52,6 +52,8 @@ const MainContent = (props) => {
           
 
         useEffect(() => {
+          setActiveTab(1);
+
           mapboxgl.accessToken = "pk.eyJ1IjoicHVza2FyZXZpY21hcmtvIiwiYSI6ImNsOGM0ODN2ZzBkaG4zb245MXMyd3o3ZGkifQ.e6UX1du_kGFp5YzHVrnMLw";
       
           const width = window.innerWidth;
