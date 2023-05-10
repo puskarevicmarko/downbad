@@ -44,6 +44,7 @@ const MainContent = (props) => {
         const [selectedIndex, setSelectedIndex] = useState(1);
         const [postsData, setPostsData] = useState([]);
 
+
         const handleCloseTopTen = () => {
           setSelectedIndex(0); // Switch to the Browse tab
         };
@@ -52,6 +53,8 @@ const MainContent = (props) => {
           
 
         useEffect(() => {
+          fetchTop10HeinosityLocations();
+
           setActiveTab(1);
 
           mapboxgl.accessToken = "pk.eyJ1IjoicHVza2FyZXZpY21hcmtvIiwiYSI6ImNsOGM0ODN2ZzBkaG4zb245MXMyd3o3ZGkifQ.e6UX1du_kGFp5YzHVrnMLw";
@@ -137,7 +140,6 @@ const MainContent = (props) => {
       
                     setData(data);
                     //const locations = getTop10HeinosityLocations(data);
-                    fetchTop10HeinosityLocations();
 
                     /*
                     setTop10Locations(locations);
@@ -529,7 +531,7 @@ return (
 
                   <button
                     onClick={handleCloseTopTen}
-                    className="bg-yellow-500 text-black font-medium py-2 px-4 rounded-lg shadow-md  mx-auto mb-4"
+                    className="bg-yellow-500 text-black font-medium py-2 my-5 px-4 rounded-lg shadow-md  mx-auto mb-4"
                   >
                     Reveal all Down Bad establishments
                   </button>
