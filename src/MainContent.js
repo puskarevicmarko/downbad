@@ -10,13 +10,11 @@ import Drawer from './Drawer.js';
 import { presentDrawer } from './Drawer.js';
 import { destroyDrawer } from './Drawer.js';
 
-
 function parseButtons(html) {
   const parser = new DOMParser();
   const doc = parser.parseFromString(html, 'text/html');
   const buttons = doc.querySelectorAll('button');
   const buttonData = [];
-
 
   buttons.forEach(button => {
     buttonData.push({
@@ -219,8 +217,6 @@ const MainContent = (props) => {
 
 setMap(mapInstance);
 
-
-// Add event listener to the button
 // Query all buttons with the 'flex-shrink-0' class inside the 'tags' element
 const buttons = document.querySelectorAll("#tags .flex-shrink-0");
 
@@ -256,7 +252,7 @@ const getTop10HeinosityLocations = (data) => {
 
   return top10Locations;
 };*/
-
+/*
 const saveTop10HeinousPlacesToFile = (top10Locations) => {
   const jsonString = JSON.stringify(top10Locations, null, 2);
   const blob = new Blob([jsonString], { type: 'application/json' });
@@ -268,7 +264,7 @@ const saveTop10HeinousPlacesToFile = (top10Locations) => {
   downloadLink.click();
   document.body.removeChild(downloadLink);
 };
-
+*/
 
  // Add handleFlyToButtonClick function
  let handleFlyToButtonClick = (event) => {
