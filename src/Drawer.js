@@ -125,7 +125,7 @@ function Drawer({ buttonData = [], onFlyToButtonClick, posts = [] }) {
         </div>
         </div>
       ) : null}
-      <div className="content" overflow-y>
+      <div className="content" overflow-y="auto">
       <List
             height={posts.length*750} // adjust based on your layout
             itemCount={posts.length}

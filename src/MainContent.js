@@ -78,7 +78,7 @@ const MainContent = (props) => {
           mapInstance.on("load", () => {
             setMap(mapInstance);
             mapRef.current = mapInstance; // Update mapRef with the latest map instance
-            //mapInstance.resize();
+            mapInstance.resize();
 
             fetch(process.env.REACT_APP_API_KEY)
               .then((response) => response.text())
@@ -495,7 +495,6 @@ return (
       </section>
       <Drawer buttonData={buttonData} onFlyToButtonClick={handleFlyToButtonClick} posts={postsData} />
     </>
-    
   );
 };
 
