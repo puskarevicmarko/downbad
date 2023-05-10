@@ -231,11 +231,9 @@ buttons.forEach(button => {
 
 const fetchTop10HeinosityLocations = async () => {
   try {
-    const response = await fetch('/top10HeinousPlaces.json');
-    const data = await response.json();
-    setTop10Locations(data);
+    setTop10Locations(top10HeinousPlaces);
   } catch (error) {
-    console.error('Error fetching top 10 heinous places:', error);
+    console.error('Error setting top 10 heinous places:', error);
   }
 };
 
@@ -290,13 +288,6 @@ const saveTop10HeinousPlacesToFile = (top10Locations) => {
 const geocoderRef = (element) => {
   if (element) {
     geocoderContainer.current = element;
-
-    const nyBoundingBox = [
-      -74.1687, // West
-      40.5722, // South
-      -73.8062, // East
-      40.9467, // North
-    ];
 
     const geocoder = new MapboxGeocoder({
       accessToken: mapboxgl.accessToken,
@@ -399,6 +390,70 @@ const triggerMapClick = (name, data) => {
     });
   }
 };
+
+const top10HeinousPlaces = [
+  {
+    name: 'Lucien',
+    latitude: 40.7233331,
+    longitude: -73.9880763,
+    score: 21,
+  },
+  {
+    name: 'Aime Leon Dore',
+    latitude: 40.7222039,
+    longitude: -73.9980452,
+    score: 16,
+  },
+  {
+    name: 'Clandestino',
+    latitude: 40.7147533,
+    longitude: -73.9907809,
+    score: 14,
+  },
+  {
+    name: 'Carbone',
+    latitude: 40.7279895,
+    longitude: -74.0002182,
+    score: 12,
+  },
+  {
+    name: "Fanelli's",
+    latitude: 40.7246254,
+    longitude: -73.9987757,
+    score: 11,
+  },
+  {
+    name: 'Dimes',
+    latitude: 40.7149708,
+    longitude: -73.991567,
+    score: 10,
+  },
+  {
+    name: 'Cipriani',
+    latitude: 40.7235595,
+    longitude: -74.0029556,
+    score: 9,
+  },
+  {
+    name: 'Balthazar',
+    latitude: 40.722668,
+    longitude: -73.9982298,
+    score: 9,
+  },
+  {
+    name: 'Lola Taverna',
+    latitude: 40.7270494,
+    longitude: -74.0031992,
+    score: 7,
+  },
+  {
+    name: "Ray's",
+    latitude: 40.721182,
+    longitude: -73.992504,
+    score: 7,
+  },
+];
+
 
 
 return (
