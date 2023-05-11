@@ -9,7 +9,6 @@ import csv2geojson from 'csv2geojson';
 import Drawer from './Drawer.js';
 import { presentDrawer } from './Drawer.js';
 import { destroyDrawer } from './Drawer.js';
-import JSConfetti from 'js-confetti';
 
 
 function parseButtons(html) {
@@ -48,18 +47,8 @@ const MainContent = (props) => {
 
 
         const handleCloseTopTen = () => {
-          const jsConfetti = new JSConfetti();
-
-          // Add confetti using custom emojis
-          jsConfetti.addConfetti({
-            emojis: ['⚠️', '🤮'],
-            confettiRadius: 5,
-            confettiNumber: 10,
-          });
-
 
           setSelectedIndex(0); // Switch to the Browse tab
-
 
         };
 
@@ -357,14 +346,7 @@ const geocoderRef = (element) => {
 };
 
 const triggerMapClick = (name, data) => {
-  /*const jsConfetti = new JSConfetti();
-
-  // Add confetti using custom emojis
-  jsConfetti.addConfetti({
-    emojis: ['⚠️', '🤮', '🤡 ', '👎', '🤮', '💀'],
-    confettiRadius: 5,
-    confettiNumber: 50,
-  });*/
+ 
 
   if (!map) return;
 
