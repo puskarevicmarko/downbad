@@ -50,6 +50,7 @@ const MainContent = (props) => {
 
           setSelectedIndex(0); // Switch to the Browse tab
 
+
         };
 
         const geocoderContainer = useRef(null);
@@ -331,10 +332,9 @@ const geocoderRef = (element) => {
       
       if (isDarkRed) {
         triggerMapClick(name, data);
-        
-        //presentDrawer();
+        setSelectedIndex(0);
+        presentDrawer();
       }
-     //setSelectedIndex(0);
     });
     
     while (geocoderContainer.current.firstChild) {
