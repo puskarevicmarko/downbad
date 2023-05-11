@@ -332,6 +332,7 @@ const geocoderRef = (element) => {
       const isDarkRed = data.features.some(feature => feature.properties.Name === name);
       
       setActiveTab(0);
+      setSelectedIndex(0);
 
       if (isDarkRed) {
         new mapboxgl.Popup({
