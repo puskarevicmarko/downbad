@@ -327,18 +327,22 @@ const geocoderRef = (element) => {
       },      
     });
 
-
-    geocoder.on('result', (e) => {      
-    
+    geocoder.on('result', (e) => {
       const name = e.result.place_name;
       const isDarkRed = data.features.some(feature => feature.properties.Name === name);
       
       if (isDarkRed) {
-        triggerMapClick(name, data);
+        new mapboxgl.Popup({
+          closeButton: false,
+        })
+          .setHTML(name)
+          .setLngLat(e.result.center)
+          .addTo(map);
       }
-
-      
     });
+    
+    
+    
     
     while (geocoderContainer.current.firstChild) {
       geocoderContainer.current.removeChild(geocoderContainer.current.firstChild);
@@ -535,7 +539,7 @@ return (
                     onClick={handleCloseTopTen}
                     className="bg-yellow-500 text-black font-medium py-2 my-5 px-4 rounded-lg shadow-md  mx-auto mb-4"
                   >
-                    Reveal all Down Bad establishments
+                    Dive into the Down Bad 📍
                   </button>
                 </Tab.Panel>
 
