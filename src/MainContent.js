@@ -9,6 +9,8 @@ import csv2geojson from 'csv2geojson';
 import Drawer from './Drawer.js';
 import { presentDrawer } from './Drawer.js';
 import { destroyDrawer } from './Drawer.js';
+import { setBottomDrawer } from './Drawer.js';
+import { setTopDrawer } from './Drawer.js';
 
 
 function parseButtons(html) {
@@ -88,6 +90,7 @@ const MainContent = (props) => {
             setMap(mapInstance);
             mapRef.current = mapInstance; // Update mapRef with the latest map instance
             mapInstance.resize();
+            console.log("resized");
 
             fetch(process.env.REACT_APP_API_KEY)
               .then((response) => response.text())
@@ -332,9 +335,9 @@ const geocoderRef = (element) => {
       
       if (isDarkRed) {
         triggerMapClick(name, data);
-        setSelectedIndex(0);
-        presentDrawer();
       }
+
+      
     });
     
     while (geocoderContainer.current.firstChild) {

@@ -26,7 +26,7 @@ function Drawer({ buttonData = [], onFlyToButtonClick, posts = [] }) {
         middle: { enabled: true, height: middleHeight },
         bottom: { enabled: true, offset: 90 },
       },
-      handleKeyboard: false,
+      handleKeyboard: true,
       initialBreak: 'top',
       buttonDestroy: false,
       fastSwipeClose: true,
@@ -152,5 +152,10 @@ export function presentDrawer() {
 export function destroyDrawer() {
     drawer.destroy({ animate: true });
 }
-
+export function setBottomDrawer() {
+  drawer.moveToBreak('bottom');
+}
   
+export function setTopDrawer() {
+  drawer.moveToBreak('top');
+}
