@@ -331,6 +331,8 @@ const geocoderRef = (element) => {
       const name = e.result.place_name;
       const isDarkRed = data.features.some(feature => feature.properties.Name === name);
       
+      setActiveTab(0);
+
       if (isDarkRed) {
         new mapboxgl.Popup({
           closeButton: false,
