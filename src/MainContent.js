@@ -3,6 +3,7 @@ import { Tab } from '@headlessui/react';
 
 import logo from './assets/logo.png';
 import subLogo from './assets/sublogo.svg';
+import closeIcon from './assets/close-svgrepo-com.svg';
 import mapboxgl from 'mapbox-gl';
 import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
 import csv2geojson from 'csv2geojson';
@@ -509,14 +510,14 @@ return (
               <Tab.Panel
                   locations={top10Locations}
                   className={classNames(
-                    'rounded-xl bg-gray bg-opacity-50 backdrop-blur-sm p-1 tab-panel-transition',
+                    'rounded-xl bg-gray bg-opacity-50 backdrop-blur-sm tab-panel-transition',
                     'ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none',
                   )}
                   map={map}
                   data={data}
 
                   >
-                  <ul className="w-full text-left p-2 max-h-72 overflow-y-auto">
+                  <ul className="w-full text-left p-2 max-h-48 overflow-y-auto">
                     {top10Locations.map((restaurant, index) => {
                       const emojiCount = Math.round(restaurant.score / 5);
                       return (
@@ -539,11 +540,12 @@ return (
                   </ul>
 
                   <button
-                    onClick={handleCloseTopTen}
-                    className="bg-yellow-500 text-black font-medium py-2 my-5 px-4 rounded-lg shadow-md  mx-auto mb-4"
-                  >
-                    Dive into the Down Bad 📍
-                  </button>
+                  onClick={handleCloseTopTen}
+                  className="relative bottom-0 w-full bg-yellow-500 hover:bg-yellow-600 py-4 px-4 text-black font-medium flex items-center justify-center"
+                >
+                  <span>Dive into the Down Bad 📍</span>
+                  <img src={closeIcon} className="absolute right-3 h-6 w-6 fill-current text-gray-500" alt="Close" />
+                </button>
                 </Tab.Panel>
 
               <Tab.Panel
