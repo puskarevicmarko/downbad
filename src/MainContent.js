@@ -160,13 +160,32 @@ const MainContent = (props) => {
       
                       const coordinates = e.features[0].geometry.coordinates.slice();
                       const name = e.features[0].properties.Name;
-      
+                      const heinosity = e.features[0].properties.HeinosityIndex;
+
+                      function getColor(heinosity) {
+                        if (heinosity <= 1) {
+                          return "#f7b731";
+                        } else if (heinosity <= 3) {
+                          return "#FD9A01";
+                        } else if (heinosity <= 5) {
+                          return "#FF2C05";
+                        } else {
+                          return "#F00505";
+                        }
+                      }
+                      
                       while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
                         coordinates[0] +=
                           e.lngLat.lng > coordinates[0] ? 360 : -360;
                       }
       
-                      popup.setLngLat(coordinates).setHTML(name).addTo(mapInstance);
+                      popup.setLngLat(coordinates)
+                      .setHTML(`
+                      <div class="popup-content">
+                        <h3>${name}</h3>
+                        <div class="heinosity-indicator" style="background-color: ${getColor(heinosity)};">${heinosity}</div>
+                        </div>
+                    `).addTo(mapInstance);
                     });
       
                     mapInstance.on("mouseleave", "places", () => {
@@ -273,17 +292,30 @@ const saveTop10HeinousPlacesToFile = (top10Locations) => {
   document.body.appendChild(downloadLink);
   downloadLink.click();
   document.body.removeChild(downloadLink);
-};
+};  
 */
 
  // Add handleFlyToButtonClick function
  let handleFlyToButtonClick = (event) => {
   const latitude = parseFloat(event.target.getAttribute('data-latitude'));
   const longitude = parseFloat(event.target.getAttribute('data-longitude'));
-  const description = event.target.dataset.description;
+  const name = event.target.dataset.description;
+  const heinosity = 1;
   
   if (map) {
     map.flyTo({ center: [longitude, latitude], zoom: 14 });
+  }
+
+  function getColor(heinosity) {
+    if (heinosity <= 1) {
+      return "#f7b731";
+    } else if (heinosity <= 3) {
+      return "#FD9A01";
+    } else if (heinosity <= 5) {
+      return "#FF2C05";
+    } else {
+      return "#F00505";
+    }
   }
 
   destroyDrawer();
@@ -291,8 +323,12 @@ const saveTop10HeinousPlacesToFile = (top10Locations) => {
     closeButton: false,
     })
     .setLngLat([longitude, latitude])
-    .setHTML(description)
-    .addTo(mapRef.current);
+    .setHTML(`
+    <div class="popup-content">
+      <h3>${name}</h3>
+      <div class="heinosity-indicator" style="display: none background-color: ${getColor(heinosity)};">${heinosity}</div>
+      </div>
+  `)    .addTo(mapRef.current);
 };
 
 const geocoderRef = (element) => {
