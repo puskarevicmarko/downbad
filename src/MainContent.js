@@ -552,7 +552,7 @@ return (
                   data={data}
 
                   >
-                  <ul className="w-full text-left p-2 max-h-48 overflow-y-auto">
+                  <ul className="w-full text-left p-2 h-48 overflow-y-auto">
                     {top10Locations.map((restaurant, index) => {
                       const emojiCount = Math.round(restaurant.score / 5);
                       return (
