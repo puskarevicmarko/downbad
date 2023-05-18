@@ -71,9 +71,9 @@ const MainContent = (props) => {
 
           mapboxgl.accessToken = "pk.eyJ1IjoicHVza2FyZXZpY21hcmtvIiwiYSI6ImNsOGM0ODN2ZzBkaG4zb245MXMyd3o3ZGkifQ.e6UX1du_kGFp5YzHVrnMLw";
       
-          /*const width = window.innerWidth;
+          const width = window.innerWidth;
           const height = window.innerHeight;
-
+/*
           console.log(width);
           console.log(height);*/
 
@@ -82,8 +82,8 @@ const MainContent = (props) => {
             style: "mapbox://styles/puskarevicmarko/cl1v306x6006a14s2064gtpmd",
             center: [-73.993516, 40.750513],
             zoom: 12,
-            /*width: width,
-            height: height,      */
+            width: width,
+            height: height, 
           });
 
           // disable map rotation using right click + drag
