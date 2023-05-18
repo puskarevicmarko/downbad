@@ -52,7 +52,10 @@ const MainContent = (props) => {
         const handleCloseTopTen = () => {
 
           setSelectedIndex(0); // Switch to the Browse tab
-
+          map.flyTo({
+            center: [-73.991344, 40.728110],
+            zoom: 14,
+        });
 
         };
 
@@ -60,7 +63,8 @@ const MainContent = (props) => {
           
 
         useEffect(() => {
-          fetchTop10HeinosityLocations();
+          console.log("Test");
+          setTop10Locations(top10HeinousPlaces);
 
           setActiveTab(1);
 
@@ -75,7 +79,7 @@ const MainContent = (props) => {
           const mapInstance = new mapboxgl.Map({
             container: mapContainer.current,
             style: "mapbox://styles/puskarevicmarko/cl1v306x6006a14s2064gtpmd",
-            center: [-73.9855, 40.7580],
+            center: [-74.0005322, 40.7559064],
             zoom: 12,
             width: width,
             height: height,      
@@ -258,14 +262,10 @@ buttons.forEach(button => {
 }, []);
 
 
-const fetchTop10HeinosityLocations = async () => {
-  try {
+/*const fetchTop10HeinosityLocations = () => {
     setTop10Locations(top10HeinousPlaces);
-  } catch (error) {
-    console.error('Error setting top 10 heinous places:', error);
-  }
 };
-
+*/
 /*
 const getTop10HeinosityLocations = (data) => {
   const top10Locations = data.features
@@ -326,7 +326,7 @@ const saveTop10HeinousPlacesToFile = (top10Locations) => {
     .setHTML(`
     <div class="popup-content">
       <h3>${name}</h3>
-      <div class="heinosity-indicator" style="display: none background-color: ${getColor(heinosity)};">${heinosity}</div>
+      <div class="heinosity-indicator" style="display: none background-color: #FD9A01 ;">${heinosity}</div>
       </div>
   `)    .addTo(mapRef.current);
 };
@@ -521,7 +521,15 @@ return (
               'Search 🔎'].map((category, index) => (
                   <Tab
                   key={category}
-                  onClick={() => setActiveTab(index)}
+                  onClick={() => {
+                    setActiveTab(index);
+                    if (index === 0) { // Check if the clicked tab is the "Browse" tab
+                        map.flyTo({
+                            center: [-73.991344, 40.728110],
+                            zoom: 14,
+                        });
+                    }
+                }}
                   className={classNames(
                     'w-full rounded-lg py-2.5 text-sm font-medium leading-5',
                     activeTab === index ? 'text-yellow-700' : 'text-yellow-100',
@@ -586,7 +594,7 @@ return (
 
               <Tab.Panel
                 className={classNames(
-                  'rounded-xl bg-gray bg-opacity-50 backdrop-blur-sm p-3 tab-panel-transition',
+                  'rounded-xl p-3 tab-panel-transition',
                   'ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none'
                 )}
               >
