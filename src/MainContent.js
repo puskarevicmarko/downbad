@@ -405,7 +405,8 @@ const triggerMapClick = (name, data) => {
       zoom: 16,
     });
 
-    setSelectedIndex(0); // Switch to the Browse tab
+    setActiveTab(0);
+    setSelectedIndex(0); 
 
     const popup = new mapboxgl.Popup({
       closeButton: false,
@@ -523,12 +524,10 @@ return (
                   key={category}
                   onClick={() => {
                     setActiveTab(index);
-                    if (index === 0) { // Check if the clicked tab is the "Browse" tab
                         map.flyTo({
                             center: [-73.991344, 40.728110],
                             zoom: 14,
                         });
-                    }
                 }}
                   className={classNames(
                     'w-full rounded-lg py-2.5 text-sm font-medium leading-5',
