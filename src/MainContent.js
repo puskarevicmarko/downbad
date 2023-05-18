@@ -25,6 +25,7 @@ function parseButtons(html) {
       latitude: button.dataset.latitude,
       longitude: button.dataset.longitude,
       description: button.dataset.description,
+      heinosity: button.dataset.heinosity,
       label: button.textContent.trim(),
     });
   });
@@ -165,18 +166,6 @@ const MainContent = (props) => {
                       const coordinates = e.features[0].geometry.coordinates.slice();
                       const name = e.features[0].properties.Name;
                       const heinosity = e.features[0].properties.HeinosityIndex;
-
-                      function getColor(heinosity) {
-                        if (heinosity <= 1) {
-                          return "#f7b731";
-                        } else if (heinosity <= 3) {
-                          return "#FD9A01";
-                        } else if (heinosity <= 5) {
-                          return "#FF2C05";
-                        } else {
-                          return "#F00505";
-                        }
-                      }
                       
                       while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
                         coordinates[0] +=
@@ -185,11 +174,11 @@ const MainContent = (props) => {
       
                       popup.setLngLat(coordinates)
                       .setHTML(`
-                      <div class="popup-content">
-                        <p class="text-sm font-sans font-medium pr-2 ">${name}</p>
-                        <div class="heinosity-indicator" style="background-color: ${getColor(heinosity)};">${heinosity}</div>
-                        </div>
-                    `).addTo(mapInstance);
+                          <div class="popup-content">
+                            <p class="text-sm font-sans font-medium pr-2 ">${name}</p>
+                            <div class="heinosity-indicator" style="background-color: ${getColor(heinosity)};">${heinosity}</div>
+                          </div>
+                        `).addTo(mapInstance);
                     });
       
                     mapInstance.on("mouseleave", "places", () => {
@@ -300,22 +289,12 @@ const saveTop10HeinousPlacesToFile = (top10Locations) => {
   const latitude = parseFloat(event.target.getAttribute('data-latitude'));
   const longitude = parseFloat(event.target.getAttribute('data-longitude'));
   const name = event.target.dataset.description;
-  const heinosity = 1;
-  
+  const heinosity =  parseFloat(event.target.getAttribute('data-heinosity'));
+
+  console.log("heinous: ", heinosity);
+
   if (map) {
     map.flyTo({ center: [longitude, latitude], zoom: 14 });
-  }
-
-  function getColor(heinosity) {
-    if (heinosity <= 1) {
-      return "#f7b731";
-    } else if (heinosity <= 3) {
-      return "#FD9A01";
-    } else if (heinosity <= 5) {
-      return "#FF2C05";
-    } else {
-      return "#F00505";
-    }
   }
 
   destroyDrawer();
@@ -326,9 +305,10 @@ const saveTop10HeinousPlacesToFile = (top10Locations) => {
     .setHTML(`
     <div class="popup-content">
       <h3 class="font-sans">${name}</h3>
-      <div class="heinosity-indicator" style="display: none background-color: #FD9A01 ;">${heinosity}</div>
+      <div class="heinosity-indicator" style="background-color: ${getColor(heinosity)};">${heinosity}</div>
       </div>
-  `)    .addTo(mapRef.current);
+  `)    
+  .addTo(mapRef.current);
 };
 
 const geocoderRef = (element) => {
@@ -439,6 +419,18 @@ const triggerMapClick = (name, data) => {
   }
 };
 
+function getColor(heinosity) {
+  if (heinosity <= 1) {
+    return "#f7b731";
+  } else if (heinosity <= 3) {
+    return "#FD9A01";
+  } else if (heinosity <= 5) {
+    return "#FF2C05";
+  } else {
+    return "#F00505";
+  }
+}
+
 const top10HeinousPlaces = [
   {
     name: 'Lucien',
@@ -512,8 +504,8 @@ return (
           
           <div className="w-full md:w-2/3 lg:w-1/2 full bg-stone-900/50 backdrop-blur-sm rounded-2xl flex flex-col relative z-10 shadow-2xl overflow-hidden">
             <div className="flex items-center bg-yellow-500 rounded-t-2xl flex-col items-start px-6 py-5">
-              <img src={logo} className="object-contain md:h-12" alt="Down Bad" />
-              <img src={subLogo} className="object-contain md:h-5" alt="Manhattan's Most Memed" />
+              <img src={logo} className="object-contain h-12 md:h-12" alt="Down Bad" />
+              <img src={subLogo} className="object-contain h-5 md:h-5" alt="Manhattan's Most Memed" />
             </div>
             <Tab.Group selectedIndex={selectedIndex} onChange={setSelectedIndex}>
             <Tab.List className="flex space-x-1 p-3">
