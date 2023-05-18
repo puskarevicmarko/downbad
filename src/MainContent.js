@@ -79,7 +79,7 @@ const MainContent = (props) => {
           const mapInstance = new mapboxgl.Map({
             container: mapContainer.current,
             style: "mapbox://styles/puskarevicmarko/cl1v306x6006a14s2064gtpmd",
-            center: [-74.0005322, 40.7559064],
+            center: [-73.989642, 40.741059],
             zoom: 12,
             width: width,
             height: height,      
@@ -186,7 +186,7 @@ const MainContent = (props) => {
                       popup.setLngLat(coordinates)
                       .setHTML(`
                       <div class="popup-content">
-                        <h3>${name}</h3>
+                        <p class="text-sm font-sans font-medium pr-2 ">${name}</p>
                         <div class="heinosity-indicator" style="background-color: ${getColor(heinosity)};">${heinosity}</div>
                         </div>
                     `).addTo(mapInstance);
@@ -325,7 +325,7 @@ const saveTop10HeinousPlacesToFile = (top10Locations) => {
     .setLngLat([longitude, latitude])
     .setHTML(`
     <div class="popup-content">
-      <h3>${name}</h3>
+      <h3 class="font-sans">${name}</h3>
       <div class="heinosity-indicator" style="display: none background-color: #FD9A01 ;">${heinosity}</div>
       </div>
   `)    .addTo(mapRef.current);
