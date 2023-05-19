@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Tab } from '@headlessui/react';
 
-import logo from './assets/logo.png';
-import subLogo from './assets/sublogo.svg';
+import logo from './assets/headerlogo1.png';
+import subLogo from './assets/mostmemed.svg';
 import closeIcon from './assets/close-svgrepo-com.svg';
 import mapboxgl from 'mapbox-gl';
 import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
@@ -321,6 +321,7 @@ const geocoderRef = (element) => {
       marker: false, 
       countries: 'us',
       types: 'poi',
+      placeholder: 'Search your favorite spot...',
       proximity: [-73.986, 40.755],
       localGeocoder: (query) => {
         const matchingFeatures = data.features.filter(feature => {
@@ -505,7 +506,7 @@ return (
           <div className="w-full md:w-2/3 lg:w-1/2 full bg-stone-900/50 backdrop-blur-sm rounded-2xl flex flex-col relative z-10 shadow-2xl overflow-hidden">
             <div className="flex items-center bg-yellow-500 rounded-t-2xl flex-col items-start px-6 py-5">
               <img src={logo} className="object-contain h-12 md:h-12" alt="Down Bad" />
-              <img src={subLogo} className="object-contain h-5 md:h-5" alt="Manhattan's Most Memed" />
+              <img src={subLogo} className="object-contain mt-1 h-5 md:h-5" alt="Manhattan's Most Memed" />
             </div>
             <Tab.Group selectedIndex={selectedIndex} onChange={setSelectedIndex}>
             <Tab.List className="flex space-x-1 p-3">
