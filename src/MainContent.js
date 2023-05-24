@@ -555,49 +555,62 @@ return (
             <Tab.Panel
                 className={classNames()}
               ></Tab.Panel>
-              <Tab.Panel
-                  locations={top10Locations}
-                  className={classNames(
-                    'rounded-xl bg-gray bg-opacity-20 tab-panel-transition',
-                    'ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none',
-                  )}
-                  map={map}
-                  data={data}
+             <Tab.Panel
+                locations={top10Locations}
+                className={classNames(
+                  'rounded-xl bg-gray bg-opacity-20 tab-panel-transition',
+                  'ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none',
+                )}
+                map={map}
+                data={data}
+              >
+                <div className="text-white py-2 text-center font-bold">
+                  Most memed establishments in Manhattan
+                </div>
 
-                  >
-                     <div className=" text-white py-2 text-center font-bold ">
-                      Most memed establishments in Manhattan
-                    </div>
-                  <ul className="w-full text-left p-2 h-48 overflow-y-auto">
-                    {top10Locations.map((restaurant, index) => {
-                      const emojiCount = Math.round(restaurant.score / 5);
-                      return (
-                        <li
-                          key={index}
-                          className="mb-2 py-2 text-yellow-500 font-black text uppercase flex justify-between items-center border-b border-yellow-200 border-opacity-20 cursor-pointer hover:bg-yellow-500 hover:bg-opacity-30 hover:border-opacity-100"
-                          onClick={() => {
-                            triggerMapClick(restaurant.name, data);
-                            presentDrawer();
-                          }}                                    >
-                          <span className="ml-2">#{index + 1}: {restaurant.name}</span>
-                          <span className="mr-2">
-                            {Array(emojiCount)
-                              .fill('🤮')
-                              .join('')}
-                          </span>
-                        </li>
-                      );
-                    })}
-                  </ul>
+                <ul className="w-full text-left p-2 h-48 overflow-y-auto">
+                  {top10Locations.map((restaurant, index) => {
+                    const score = restaurant.score;
+                    const heinosityValue = restaurant.heinosity; // Assuming `heinosity` is available in `top10Locations` array
 
-                  <button
+                    return (
+                      <li
+                        key={index}
+                        className="mb-2 py-2 text-yellow-500 font-black text flex justify-between items-center border-b border-yellow-200 border-opacity-20 cursor-pointer hover:bg-yellow-500 hover:bg-opacity-30 hover:border-opacity-100"
+                        onClick={() => {
+                          triggerMapClick(restaurant.name, data);
+                          presentDrawer();
+                        }}
+                      >
+                        <span className="ml-2 text uppercase">#{index + 1}: {restaurant.name}</span>
+                        <div
+                          className="heinosity-indicator"
+                          style={{
+                            backgroundColor: getColor(heinosityValue),
+                            borderRadius: '20px',
+                            padding: '4px 10px',
+                            display: 'flex',
+                            alignItems: 'center',
+                            color: 'white',
+                            fontWeight: 'bold',
+                          }}
+                        >
+                          {score} memes ⚠️
+                        </div>
+                      </li>
+                    );
+                  })}
+                </ul>
+
+                <button
                   onClick={handleCloseTopTen}
                   className="relative bottom-0 w-full bg-yellow-500 hover:bg-yellow-600 py-4 px-4 text-black font-medium flex items-center justify-center"
                 >
                   <span>Dive into the Down Bad 📍</span>
                   <img src={closeIcon} className="absolute right-3 h-6 w-6 fill-current text-gray-500" alt="Close" />
                 </button>
-                </Tab.Panel>
+              </Tab.Panel>
+
 
               <Tab.Panel
                 className={classNames(
