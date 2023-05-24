@@ -531,7 +531,7 @@ return (
                     setActiveTab(index);
                         map.flyTo({
                             center: [-73.991344, 40.728110],
-                            zoom: 14,
+                            zoom: 12,
                         });
                 }}
                   className={classNames(
