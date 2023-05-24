@@ -580,7 +580,7 @@ return (
                       >
                         <span className="ml-2 text uppercase">#{index + 1}: {restaurant.name}</span>
                         <div
-                          className="heinosity-indicator"
+                          className="heinosity-indicator text-sm font-medium"
                           style={{
                             backgroundColor: getColor(heinosityValue),
                             borderRadius: '20px',
@@ -588,7 +588,6 @@ return (
                             display: 'flex',
                             alignItems: 'center',
                             color: 'white',
-                            fontWeight: 'bold',
                           }}
                         >
                           {score} memes ⚠️
