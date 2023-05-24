@@ -564,10 +564,6 @@ return (
                 map={map}
                 data={data}
               >
-                <div className="text-white py-2 text-center font-bold">
-                  Most memed establishments in Manhattan
-                </div>
-
                 <ul className="w-full text-left p-2 h-48 overflow-y-auto">
                   {top10Locations.map((restaurant, index) => {
                     const score = restaurant.score;
