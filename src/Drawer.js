@@ -117,6 +117,7 @@ function Drawer({ buttonData = [], onFlyToButtonClick, posts = [] }) {
               data-latitude={button.latitude}
               data-longitude={button.longitude}
               data-description={button.description}
+              data-heinosity={button.heinosity}
               className="flex-shrink-0 bg-yellow-500 py-2 px-4 mx-2 rounded-full"
               onClick={onFlyToButtonClick}
             >

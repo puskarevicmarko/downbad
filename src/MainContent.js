@@ -25,7 +25,7 @@ function parseButtons(html) {
       latitude: button.dataset.latitude,
       longitude: button.dataset.longitude,
       description: button.dataset.description,
-      heinosity: button.dataset.heinosity,
+      heinosity: parseInt(button.dataset.heinosity, 10),
       label: button.textContent.trim(),
     });
   });
@@ -289,9 +289,9 @@ const saveTop10HeinousPlacesToFile = (top10Locations) => {
   const latitude = parseFloat(event.target.getAttribute('data-latitude'));
   const longitude = parseFloat(event.target.getAttribute('data-longitude'));
   const name = event.target.dataset.description;
-  const heinosity =  parseFloat(event.target.getAttribute('data-heinosity'));
+  const heinosityValue = parseFloat(event.target.getAttribute('data-heinosity'));; 
 
-  console.log("heinous: ", heinosity);
+  console.log(heinosityValue);
 
   if (map) {
     map.flyTo({ center: [longitude, latitude], zoom: 14 });
@@ -304,9 +304,9 @@ const saveTop10HeinousPlacesToFile = (top10Locations) => {
     .setLngLat([longitude, latitude])
     .setHTML(`
     <div class="popup-content">
-      <h3 class="font-sans">${name}</h3>
-      <div class="heinosity-indicator" style="background-color: ${getColor(heinosity)};">${heinosity}</div>
-      </div>
+      <p class="text-sm font-sans font-medium pr-2 ">${name}</p>
+      <div class="heinosity-indicator" style="background-color: ${getColor(heinosityValue)};">${heinosityValue}</div>
+    </div>
   `)    
   .addTo(mapRef.current);
 };
@@ -330,6 +330,7 @@ const geocoderRef = (element) => {
         return matchingFeatures.map(feature => ({
           center: feature.geometry.coordinates,
           place_name: feature.properties.Name,
+          heinosity: feature.properties.HeinosityIndex,
           bbox: feature.bbox
         }));
       },
@@ -348,7 +349,7 @@ const geocoderRef = (element) => {
     geocoder.on('result', (e) => {
       const name = e.result.place_name;
       const isDarkRed = data.features.some(feature => feature.properties.Name === name);
-      
+      const heinosity = e.result.heinosity;
       setActiveTab(0);
       setSelectedIndex(0);
 
@@ -356,7 +357,13 @@ const geocoderRef = (element) => {
         new mapboxgl.Popup({
           closeButton: false,
         })
-          .setHTML(name)
+          .setHTML(`
+          <div class="popup-content">
+            <p class="text-sm font-sans font-medium pr-2 ">${name}</p>
+            <div class="heinosity-indicator" style="background-color: ${getColor(heinosity)};">${heinosity}</div>
+          </div>
+        `
+          )
           .setLngLat(e.result.center)
           .addTo(map);
       }
