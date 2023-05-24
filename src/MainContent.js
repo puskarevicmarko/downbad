@@ -399,8 +399,13 @@ const triggerMapClick = (name, data) => {
     const popup = new mapboxgl.Popup({
       closeButton: false,
     }).setLngLat(targetFeature.geometry.coordinates)
-      .setHTML(targetFeature.properties.Name)
-      .addTo(map);
+      .addTo(map)
+      .setHTML(`
+      <div class="popup-content">
+        <p class="text-sm font-sans font-medium pr-2 ">${targetFeature.properties.Name}</p>
+        <div class="heinosity-indicator" style="background-color: ${getColor(targetFeature.properties.HeinosityIndex)};">${targetFeature.properties.HeinosityIndex}</div>
+      </div>
+    `);
 
     const feature = targetFeature.properties;
     document.getElementById("location").innerHTML = feature.Name;
