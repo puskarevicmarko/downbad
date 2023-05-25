@@ -108,7 +108,7 @@ function Drawer({ buttonData = [], onFlyToButtonClick, posts = [] }) {
       </h1>
       {buttonData.length > 0 ? (
         <div id="button-group" className="py-2 pl-4 flex justify-left items-center space-x-4 overflow-x-auto">
-          <h2 className="flex-shrink-0">Associated: </h2>
+          <h2 className="flex-shrink-0">Implicated: </h2>
           <div id="tags" className="flex-shrink-0">
           {buttonData.map((button, index) => (
             <button
