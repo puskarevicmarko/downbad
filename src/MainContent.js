@@ -189,6 +189,9 @@ const MainContent = (props) => {
                     mapInstance.on("click", "places", (e) => {
                       // You can perform additional actions based on the
    
+                      setActiveTab(0);
+                      setSelectedIndex(0); 
+
                     const feature = e.features[0].properties;
 
                     // Update the UI elements with the feature data
@@ -446,68 +449,66 @@ function getColor(heinosity) {
 
 const top10HeinousPlaces = [
   {
-    name: 'Lucien',
-    latitude: 40.7233331,
-    longitude: -73.9880763,
-    score: 21,
+    "name": "Lucien",
+    "latitude": 40.7233331,
+    "longitude": -73.9880763,
+    "score": 21
   },
   {
-    name: 'Aime Leon Dore',
-    latitude: 40.7222039,
-    longitude: -73.9980452,
-    score: 16,
+    "name": "Aime Leon Dore",
+    "latitude": 40.7222039,
+    "longitude": -73.9980452,
+    "score": 17
   },
   {
-    name: 'Clandestino',
-    latitude: 40.7147533,
-    longitude: -73.9907809,
-    score: 14,
+    "name": "Carbone",
+    "latitude": 40.7279895,
+    "longitude": -74.0002182,
+    "score": 15
   },
   {
-    name: 'Carbone',
-    latitude: 40.7279895,
-    longitude: -74.0002182,
-    score: 12,
+    "name": "Clandestino",
+    "latitude": 40.7147533,
+    "longitude": -73.9907809,
+    "score": 13
   },
   {
-    name: "Fanelli's",
-    latitude: 40.7246254,
-    longitude: -73.9987757,
-    score: 11,
+    "name": "Fanelli's",
+    "latitude": 40.7246254,
+    "longitude": -73.9987757,
+    "score": 11
   },
   {
-    name: 'Dimes',
-    latitude: 40.7149708,
-    longitude: -73.991567,
-    score: 10,
+    "name": "Dimes",
+    "latitude": 40.7149708,
+    "longitude": -73.991567,
+    "score": 10
   },
   {
-    name: 'Cipriani',
-    latitude: 40.7235595,
-    longitude: -74.0029556,
-    score: 9,
+    "name": "Cipriani",
+    "latitude": 40.7235595,
+    "longitude": -74.0029556,
+    "score": 9
   },
   {
-    name: 'Balthazar',
-    latitude: 40.722668,
-    longitude: -73.9982298,
-    score: 9,
+    "name": "Balthazar",
+    "latitude": 40.722668,
+    "longitude": -73.9982298,
+    "score": 9
   },
   {
-    name: 'Lola Taverna',
-    latitude: 40.7270494,
-    longitude: -74.0031992,
-    score: 7,
+    "name": "Lola Taverna",
+    "latitude": 40.7270494,
+    "longitude": -74.0031992,
+    "score": 7
   },
   {
-    name: "Ray's",
-    latitude: 40.721182,
-    longitude: -73.992504,
-    score: 7,
-  },
+    "name": "Ray's",
+    "latitude": 40.721182,
+    "longitude": -73.992504,
+    "score": 7
+  }
 ];
-
-
 
 return (
     <>
