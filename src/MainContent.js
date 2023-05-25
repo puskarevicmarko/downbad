@@ -55,7 +55,7 @@ const MainContent = (props) => {
           setSelectedIndex(0); // Switch to the Browse tab
           map.flyTo({
             center: [-73.991344, 40.728110],
-            zoom: 14,
+            zoom: 13,
         });
 
         };
