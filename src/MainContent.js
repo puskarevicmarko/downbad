@@ -67,7 +67,9 @@ const MainContent = (props) => {
           console.log("Test");
           setTop10Locations(top10HeinousPlaces);
 
-          setActiveTab(1);
+          setActiveTab(0);
+          setSelectedIndex(0); 
+
 
           mapboxgl.accessToken = "pk.eyJ1IjoicHVza2FyZXZpY21hcmtvIiwiYSI6ImNsOGM0ODN2ZzBkaG4zb245MXMyd3o3ZGkifQ.e6UX1du_kGFp5YzHVrnMLw";
       
