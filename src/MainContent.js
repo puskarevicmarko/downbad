@@ -524,12 +524,12 @@ return (
               <img src={logo} className="object-contain h-12 md:h-12" alt="Down Bad" />
               <img src={subLogo} className="object-contain mt-1 h-5 md:h-5" alt="Manhattan's Most Memed" />
             </div>
-            <Marquee className="text-white py-2 bg-black uppercase font-bold" autofill={true}>
-                  <p className="px-4">Lucien is Down Bad!</p>
-                  <p className="px-4">Carbone is Down Bad!</p>
-                  <p className="px-4">Clandestino is Down Bad!</p>
-                  <p className="px-4">Nublu is Down Bad!</p>
-                  <p className="px-4">Baby Grand is Down Bad!</p>
+            <Marquee className="text-white py-2 bg-black uppercase font-helvetica font-black" autofill={true}>
+                  <p className="px-4">Lucien is Down Bad</p>
+                  <p className="px-4">Carbone is Down Bad</p>
+                  <p className="px-4">Clandestino is Down Bad</p>
+                  <p className="px-4">Nublu is Down Bad</p>
+                  <p className="px-4">Baby Grand is Down Bad</p>
 
 
             </Marquee>
